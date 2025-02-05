@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js"></script>
+</head>
+
+<body class="page_body">
+    
+    <div id="navbar">
+        <nav>
+            <ul>
+                <li class="navbar-fixed-top"><a href="home.html">Начало</a></li>
+                <li class="navbar-fixed-top"><a href="albums.html">Албуми</a></li>
+                <li class="selected"><a href="merch.html" style="color: var(--gray);">Мърч</a></li>
+                <li class="navbar-fixed-top"><a href="charts.html">Класации</a></li>
+                <li class="navbar-fixed-top"><a href="artists.html">Партньори</a></li>
+                <li class="navbar-fixed-top"><a href="contact.html">Контакт</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div>
+        <p class="centeredTitleMain"> Мърч </p>
+    </div>
+
+    <div class="shop_filters">
+        <div class="filters_container" style="height: 550px;">
+
+            <p class="centeredParagraph" style="font-size: 56px; margin-left: -50px; margin-top: -70px;">
+                Филтриране 
+            </p>
+
+            <hr style="width: 420px; color: var(--gray); margin-top: -3.8rem; border-radius: 1.5625rem; margin-left: -60px;">
+
+            <p class="centeredParagraph" style="font-size: 38px; margin-left: -180px; margin-top: 30px;">
+                Вид дреха 
+            </p>
+
+            <div style="display: flex; margin-left: -50px;">
+                <input type="checkbox" name="cbx_Tee" value="Tee" id="Tee" style="margin-top: -30px;" />
+                <label for="Tee" class="centeredParagraph" style="margin-top: -38px; margin-left: 10px;"> Тениски </label>
+            </div>
+            
+            <div style="display: flex; margin-left: -50px;">
+                <input type="checkbox" name="cbx_Hoodie" value="Hoodie" id="Hoodie"/>
+                <label for="Hoodie" class="centeredParagraph" style="margin-top: -10px; margin-left: 10px;"> Суичъри </label>
+            </div>
+
+            <div style="display: flex; margin-left: -50px;">
+                <input type="checkbox" name="cbx_Socks" value="Shoes" id="Shoes"/>
+                <label for="Shoes" class="centeredParagraph" style="margin-top: -10px; margin-left: 10px;"> Обувки </label>
+            </div>
+
+            <div style="display: flex; margin-left: -50px;">
+                <input type="checkbox" name="cbx_Socks" value="Socks" id="Socks"/>
+                <label for="Socks" class="centeredParagraph" style="margin-top: -10px; margin-left: 10px;"> Чорапи </label>
+            </div>
+
+            <div style="display: flex; margin-left: -50px;">
+                <input type="checkbox" name="cbx_Shirts" value="Shirts" id="Shirts"/>
+                <label for="Shirts" class="centeredParagraph" style="margin-top: -10px; margin-left: 10px;"> Ризи </label>
+            </div>
+
+            <div class="dropdown" style="margin-left: -60px; margin-top: 30px;">
+                <button onclick="genreDropdown()" class="dropbtn">Жанр</button>
+                <div id="genre" class="dropdown-content">
+                  <input type="text" placeholder="Търсене" id="genreb" onkeyup="filterFunction()">
+                  <a>Рап</a>
+                  <a>Трап</a>
+                  <a>Рок</a>
+                  <a>Метал</a>
+                  <a>Поп</a>
+                  <a>Кънтри</a>
+                  <a>Поп-фолк</a>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="dropdown" style="margin-left: -60px; margin-top: 50px;">
+                <button onclick="artistDropdown()" class="dropbtn">Артист</button>
+                <div id="artist" class="dropdown-content">
+                  <input type="text" placeholder="Търсене" id="myInput" onkeyup="filterFunction()"">
+                  <a>ASAP Rocky</a>
+                  <a>Taylor Swift</a>
+                  <a>Travis Scott</a>
+                  <a>Metallica</a>
+                  <a>Kanye West</a>
+                  <a>Suicide Boys</a>
+                  <a>DMX</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="shop_container">
+            <div class="shop_grid">
+                <div class="p1">
+                    <img src="Images/ts_mcdonalds.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -50px;">
+                        Cactus Jack X McDonalds <br>Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>
+                </div>
+
+                <div class="p2">
+                    <img src="Images/CDropout_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -51px;">
+                        The College Dropout <br>Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p3">
+                    <img src="Images/Wu_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -51px;">
+                        Wu Tang Clan logo <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p4">
+                    <img src="Images/Astro_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        Astroworld <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>
+                </div>
+
+                <div class="p5">
+                    <img src="Images/Nirvana_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        "In Utero" <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p6">
+                    <img src="Images/THE-END-SO-FAR-MASKS-T-SHIRT-1.webp" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        The End So Far <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+            </div>
+
+            <div class="shop_grid" style="margin-top: -1690px;">
+                <div class="p1">
+                    <img src="Images/ts_mcdonalds.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -50px;">
+                        Cactus Jack X McDonalds <br>Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>
+                </div>
+
+                <div class="p2">
+                    <img src="Images/CDropout_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -51px;">
+                        The College Dropout <br>Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p3">
+                    <img src="Images/Wu_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -51px;">
+                        Wu Tang Clan logo <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p4">
+                    <img src="Images/Astro_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        Astroworld <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>
+                </div>
+
+                <div class="p5">
+                    <img src="Images/Nirvana_tee.png" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        "In Utero" <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+
+                <div class="p6">
+                    <img src="Images/THE-END-SO-FAR-MASKS-T-SHIRT-1.webp" style="margin-left: 40px; border-radius: 25px; width: 300px; height: 300px; margin-bottom: 75px; margin-top: 25px;">
+
+                    <p class="centeredParagraph" style="font-size: 18px; margin-top: -76px;">
+                        The End So Far <br> Тениска
+                    </p>
+
+                    <p class="centeredParagraph" style="float: inline-end; margin-top: -1px; color: var(--white);">
+                        <b>19$</b>
+                    </p>
+
+                    <div class="add-to-cart-button" onclick="divClick">
+                        <img src="Images/shopping_cart.png" style="height: 40px; float: inline-start; margin-left: 20px; margin-top: 3px;">
+                        <p class="button-text">Добави</p>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
