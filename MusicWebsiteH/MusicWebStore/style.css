@@ -1,0 +1,90 @@
+:root {
+    --black: rgb(34, 40, 49);
+    --gray: rgb(57, 62, 70);
+    --gray2: rgb(78, 84, 94);
+    --orange: rgb(214, 90, 49);
+    --orange2:rgb(192, 84, 48);
+    --white: rgb(238, 238, 238);
+    --red:rgb(206, 31, 54);
+    --red2: rgb(177, 42, 42);
+    --green: rgb(15, 136, 15);
+}
+  
+@font-face {
+    font-family: Comfortaa-Regular;
+    src: url(Fonts/Comfortaa-Regular.ttf);
+}
+@font-face {
+    font-family: Comfortaa-Bold;
+    src: url(Fonts/Comfortaa-Bold.ttf);
+}
+
+.page_body {
+    background-color: var(--black);
+}
+
+.centeredParagraph{
+    text-align: center;
+    font-family: Comfortaa-Regular;
+    font-size: 1.4vw;
+    color: var(--white);
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    line-height: 200%;
+}
+  
+.button {
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+#navbar{
+    width:100%;
+    height:10vh;
+    text-align: center;
+    top: 0;
+}
+
+nav{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    top: 0;
+}
+nav ul{
+    float:center;
+    margin-right: 30px;
+}
+nav ul li{
+    list-style-type: none;
+    display: inline-block;
+    transition: 0.5s all;
+    border-radius: 25px;
+}
+nav ul li:hover{
+    background-color:var(--white);
+    color: var(--gray);
+}
+nav ul li a{
+    text-decoration: none;
+    text-align: center;
+    color: var(--white);
+    padding: 30px;
+  
+    font-family: Comfortaa-Bold;
+    font-size: 1.3vw;
+}
+nav ul li a:hover{
+    color: var(--gray);
+}
+  
+.selected{
+    background-color: var(--white);
+    color: var(--gray);
+}
+  
+.navbar-fixed-top.scrolled {
+    background-color: #fff !important;
+    transition: background-color 200ms linear;
+}
