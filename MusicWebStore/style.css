@@ -19,6 +19,11 @@
     src: url(Fonts/Comfortaa-Bold.ttf);
 }
 
+
+* {
+    font-family: Comfortaa-Regular;
+  }
+
 .page_body {
     background-color: var(--black);
     overflow-x: hidden;
@@ -102,7 +107,7 @@
 
 .profile-button:hover {
     background: var(--white);
-    color: black;
+    color: var(--black);
 }
 
 .banner {
@@ -144,6 +149,9 @@
 
 .banner .add-to-cart{
     background-color: var(--red);
+    border-radius: 15px;
+    border-color: var(--white);
+    border: 2px;
 }
 
 .item-menu-container {
@@ -200,7 +208,8 @@
 .add-to-cart {
     background-color: var(--black);
     color: var(--white);
-    border: none;
+    border: 2px;
+    border-color: var(--white);
     padding: 8px 12px;
     border-radius: 20px;
     cursor: pointer;
@@ -240,3 +249,5 @@
 .scroll-right {
     right: 0;
 }
+
+
