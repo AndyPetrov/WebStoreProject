@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dropdown Menu</title>
+	<title>Cascading Dropdown</title>
+	<style>
+        .dropdown-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #ddd;
+        }
+
+        .submenu-section {
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            font-weight: bold;
+            color: #333;
+            cursor: default;
+        }
+
+    </style>
+</head>
+<body>
+	<!-- Button to trigger the dropdown -->
+    <button class="dropdown-button" onclick="toggleDropdown()">Click me</button>
+
+    <!-- Main dropdown menu -->
+    <div id="dropdownMenu" class="dropdown-menu">
+        {% for category in categories_with_options %}
+            <div class="submenu-section">{{ category.category_name }}</div>
+            {% for option in category.options %}
+                <a href="#">{{ option[1] }}</a>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-menu a') && !event.target.matches('.submenu-section')) {
+                var dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var dropdown = dropdowns[i];
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+    </script>
+	
+	<h1>Music List</h1>
+	
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Music Name</th>
+				<th>Author</th>
+				<th>Price</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for m in music %}
+				<tr>
+					<td>{{ m[0] }}</td>
+					<td>{{ m[1] }}</td>
+					<td>{{ m[2] }}</td>
+					<td>{{ m[3] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+</body>
+</html>
