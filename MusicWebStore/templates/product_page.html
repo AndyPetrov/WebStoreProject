@@ -7,7 +7,16 @@
 <body class="page_body">
     <nav class="navbar">
         <div class="navbar-left">
-            <button class="navbar-button">Categories</button>
+            <div class="dropdown">
+                <button class="navbar-button dropdown-btn">Categories ▼</button>
+                <div class="dropdown-menu">
+                    <a href="#">Albums</a>
+                    <a href="#">Singles</a>
+                    <a href="#">Clothing</a>
+                    <a href="#">Shoes</a>
+                    <a href="#">Other</a>
+                </div>
+            </div>
             <button class="navbar-button">Charts</button>
         </div>
 
@@ -49,5 +58,38 @@
             nascetur ridiculus mus.
         </p>
     </section>
+
+    <div class="item-menu-container">
+        <button class="scroll-button scroll-left" onclick="scrollMenu(-200)">&#9665;</button>
+    
+        <div class="item-menu" id="itemMenu">
+            <div class="item">
+                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Album Cover">
+                <div class="item-title">The Life of Pablo</div>
+                <div class="item-price">29.99$</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="Assets/AlbumImages/Donda.jpg" alt="Album Cover">
+                <div class="item-title">Donda</div>
+                <div class="item-price">24.99$</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="Assets/AlbumImages/Graduation.jpg" alt="Album Cover">
+                <div class="item-title">Graduation</div>
+                <div class="item-price">19.99$</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="item">
+                <img src="Assets/AlbumImages/Yeezus.jpg" alt="Album Cover">
+                <div class="item-title">Yeezus</div>
+                <div class="item-price">21.99$</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    
+        <button class="scroll-button scroll-right" onclick="scrollMenu(200)">&#9655;</button>
+    </div>
 
 </body>
