@@ -1,0 +1,277 @@
+:root {
+    --black: rgb(34, 40, 49);
+    --gray: rgb(57, 62, 70);
+    --gray2: rgb(78, 84, 94);
+    --orange: rgb(214, 90, 49);
+    --orange2:rgb(192, 84, 48);
+    --white: rgb(238, 238, 238);
+    --red:rgb(206, 31, 54);
+    --red2: rgb(177, 42, 42);
+    --green: rgb(15, 136, 15);
+}
+  
+@font-face {
+    font-family: Comfortaa-Regular;
+    src: url(../Fonts/Comfortaa-Regular.ttf);
+}
+@font-face {
+    font-family: Comfortaa-Bold;
+    src: url(../Fonts/Comfortaa-Bold.ttf);
+}
+
+
+* {
+    font-family: Comfortaa-Regular;
+  }
+
+.page_body {
+    background-color: var(--black);
+    overflow-x: hidden;
+}
+
+/* Tab Styles */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: color 0.3s;
+}
+
+.tab-button.active {
+    font-weight: bold;
+    border-bottom: 2px solid var(--white);
+}
+
+.tab-button:hover {
+    color: var(--white);
+    border-bottom: 2px solid var(--white);
+}
+
+/* Divider Line */
+.divider {
+    border: none;
+    border-top: 2px solid var(--white);
+    margin: 10px 5%;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Profile Layout */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.profile-info {
+    color: var(--white);
+    font-size: 18px;
+}
+
+.profile-button.small {
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.profile-button.small:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* Profile Picture */
+.profile-picture {
+    text-align: center;
+}
+
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    background: var(--gray2);
+}
+
+/* Purchase History */
+.purchase-history {
+    text-align: center;
+    color: var(--white);
+    font-size: 18px;
+}
+
+/* Settings */
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.settings-button {
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.settings-button:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* Delete Account Button */
+.delete-button {
+    background: var(--red);
+    color: var(--white);
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    border: none;
+}
+
+.delete-button:hover {
+    background: var(--red2);
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--black);
+    padding: 10px 20px;
+    top:0;
+}
+
+.navbar-left,
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-button {
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.navbar-button:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 200px;
+}
+
+.profile-button {
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.profile-button:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    position: relative;
+    z-index: 2;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: var(--black);
+    border: 2px solid var(--white);
+    border-radius: 10px;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+    padding: 8px 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
