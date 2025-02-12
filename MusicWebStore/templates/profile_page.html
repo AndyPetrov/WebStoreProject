@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="../static/profile_page.css">
+    <script src="../scripts/profile_page_script.js"></script>
+</head>
+
+</head>
+<body class="page_body">
+
+    <!-- Navigation Bar (Already Exists) -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <button class="navbar-button">Categories</button>
+            <button class="navbar-button">Charts</button>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <div class="navbar-right">
+            <button class="profile-button">Profile</button>
+        </div>
+    </nav>
+
+    <!-- Profile Tabs -->
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'profile')">Your profile</button>
+        <button class="tab-button" onclick="openTab(event, 'history')">Purchase History</button>
+        <button class="tab-button" onclick="openTab(event, 'settings')">Settings</button>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Profile Tab Content -->
+    <div id="profile" class="tab-content active">
+        <div class="profile-container">
+            <div class="profile-info">
+                <p><strong>Name:</strong></p>
+                <p><strong>Surname:</strong></p>
+                <p><strong>Address:</strong></p>
+                <p><strong>E-mail:</strong></p>
+                <button class="profile-button small">Reset password</button>
+            </div>
+            <div class="profile-picture">
+                <img src="../Assets/ProfilePictures/default_profile_picture.png" alt="Profile Picture">
+                <button class="profile-button small">Change Picture</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase History Tab -->
+    <div id="history" class="tab-content">
+        <div class="purchase-history">
+            <p>No purchase history available.</p>
+        </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="settings" class="tab-content">
+        <div class="settings-options">
+            <button class="settings-button">Change Password</button>
+            <button class="settings-button">Change E-mail</button>
+            <button class="delete-button">Delete Account</button>
+        </div>
+    </div>
+
+</body>
+</html>
