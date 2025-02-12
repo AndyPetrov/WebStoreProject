@@ -37,10 +37,7 @@ def get_dynamic_filter():
     for category in categories:
         category_id = category[0]
         cursor.execute(f"SELECT * FROM music_authors WHERE category_id = {category_id} UNION ALL SELECT * FROM type_music WHERE category_id = {category_id}")
-        #options = cursor.fetchall()
-        #cursor.execute("SELECT * FROM type_music WHERE category_id = %s", (category_id))
-        options = cursor.fetchall()
-        
+        options = cursor.fetchall()       
         categories_with_options.append({
             'category_name': category[1],
             'options': options
@@ -49,8 +46,9 @@ def get_dynamic_filter():
     cursor.close()
     conn.close()
 
-    # Render HTML with data passed to the template
     return categories_with_options
+
+    
 @app.route('/')
 def all():
     music = get_music()
