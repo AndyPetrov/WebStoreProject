@@ -81,36 +81,30 @@
 
 		document.querySelectorAll(".dropdown-menu a").forEach(item => {
 			item.addEventListener("click", function(event) {
-				event.preventDefault();
 
 				const selectedCategory = item.getAttribute("data-category").trim();
 				
 				const rows = document.querySelectorAll("#categoryTable tbody tr");
-				rows.forEach(row => {
-					const categoryCellType = row.cells[3];
-					if (categoryCellType) {
-						const rowCategory = categoryCellType.textContent.trim();
+				rows.forEach(row => 
+				{
+					const categoryCellType = row.cells[1];
+					const categoryCell = row.cells[3];
+					
+					const rowCategory = categoryCellType.textContent.trim();
+					const rowAuthor = categoryCell.textContent.trim();
 
-						if (rowCategory === selectedCategory) {
+					if (rowCategory === selectedCategory || rowAuthor === selectedCategory) 
+					{
 							row.style.display = "";
-						} else {
+					} 						
+					else 
+					{
 							row.style.display = "none";
-						}
-					}					
-					else{
-						const categoryAuthor = row.cells[1]
-						rowAuthor = categoryAuthor.textContent.trim();
-						
-						if(rowAuthor === selectedCategory){
-							row.style.display = "";
-						}
-						else{
-							row.style.display = "none"
-						}
-					}
+					}										
 				});
 			});
 		});
+		
 	</script>
 
 	<h1>Music List</h1>
