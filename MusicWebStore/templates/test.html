@@ -43,11 +43,12 @@
 			color: #333;
 			cursor: default;
 		}
+
 	</style>
 </head>
 <body>
 
-	<button class="dropdown-button" onclick="toggleDropdown()">Click me</button>
+	<button class="dropdown-button" onclick="toggleDropdown()">Filter</button>
 
 
 	<div id="dropdownMenu" class="dropdown-menu">
@@ -57,34 +58,48 @@
 				<a href="#" data-category="{{ option[1] }}">{{ option[1] }}</a>
 			{% endfor %}
 		{% endfor %}
+		<div class="submenu-section">Other Options</div>
+		<a href="#" data-category="other">Show all</a>
 	</div>
 
 	<script>
-		function toggleDropdown() {
+		//This is for showing/hiding the dropdown menu on click.
+		function toggleDropdown() 
+		{
 			var dropdown = document.getElementById("dropdownMenu");
-			if (dropdown.style.display === "none" || dropdown.style.display === "") {
+			if (dropdown.style.display === "none" || dropdown.style.display === "") 
+			{
 				dropdown.style.display = "block";
-			} else {
+			} 
+			else 
+			{
 				dropdown.style.display = "none";
 			}
-		}
-
-		window.onclick = function(event) {
-			if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-menu a') && !event.target.matches('.submenu-section')) {
+		}		
+		//This is for closing the dropdown menu when clicking outside of it.
+		window.onclick = function(event) 
+		{
+			if (!event.target.matches('.dropdown-button') && !event.target.matches('.dropdown-menu a') && !event.target.matches('.submenu-section')) 
+			{
 				var dropdowns = document.getElementsByClassName("dropdown-menu");
-				for (var i = 0; i < dropdowns.length; i++) {
+				for (var i = 0; i < dropdowns.length; i++) 
+				{
 					var dropdown = dropdowns[i];
 					dropdown.style.display = "none";
 				}
 			}
 		}
-
-		document.querySelectorAll(".dropdown-menu a").forEach(item => {
-			item.addEventListener("click", function(event) {
+		//This is for sorting the table by author and type of music.
+		document.querySelectorAll(".dropdown-menu a").forEach(item => 
+		{
+			item.addEventListener("click", function(event) 
+			{
 
 				const selectedCategory = item.getAttribute("data-category").trim();
 				
 				const rows = document.querySelectorAll("#categoryTable tbody tr");
+				
+				
 				rows.forEach(row => 
 				{
 					const categoryCellType = row.cells[1];
@@ -92,14 +107,17 @@
 					
 					const rowCategory = categoryCellType.textContent.trim();
 					const rowAuthor = categoryCell.textContent.trim();
-
-					if (rowCategory === selectedCategory || rowAuthor === selectedCategory) 
+					if(selectedCategory === "other")
 					{
-							row.style.display = "";
+						row.style.display = "table-row";
+					} 
+					else if (rowCategory === selectedCategory || rowAuthor === selectedCategory) 
+					{
+						row.style.display = "table-row";
 					} 						
 					else 
 					{
-							row.style.display = "none";
+						row.style.display = "none";
 					}										
 				});
 			});
