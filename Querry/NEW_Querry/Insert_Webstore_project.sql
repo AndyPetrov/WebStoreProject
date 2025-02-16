@@ -45,10 +45,16 @@ INSERT INTO `streaming_history` (`user_id`, `track_id`, `timestamp`) VALUES
 (1, 1, '2025-02-16 12:00:00'),
 (2, 2, '2025-02-16 12:05:00');
 
--- Insert sample subscriptions
-INSERT INTO `subscriptions` (`user_id`, `subscription_type`, `start_date`, `end_date`, `status`) VALUES
-(1, 'free', '2025-01-01', NULL, 'active'),
-(2, 'premium', '2025-01-01', '2026-01-01', 'active');
+-- Insert sample subscription types
+INSERT INTO `subscription_types` (`type_name`, `price`, `description`) VALUES
+('free', 0.00, 'Basic access with limited features.'),
+('basic', 5.99, 'Access to standard content with ads.'),
+('premium', 15.99, 'Full access with no ads, exclusive content, and priority support.');
+
+-- Example insert into subscriptions table using the new subscription_types table
+INSERT INTO `subscriptions` (`user_id`, `subscription_type_id`, `start_date`, `end_date`, `status`) VALUES
+(1, 1, '2025-01-01', NULL, 'active'),  -- free subscription for user 1
+(2, 3, '2025-01-01', '2026-01-01', 'active');  -- premium subscription for user 2
 
 -- Insert sample payment methods
 INSERT INTO `payment_methods` (`user_id`, `method_type`, `payment_details`) VALUES
