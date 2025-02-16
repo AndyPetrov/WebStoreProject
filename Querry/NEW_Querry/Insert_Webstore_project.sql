@@ -4,63 +4,152 @@
 -- ('customer'), 
 -- ('premium');
 
--- Insert sample users
-INSERT INTO `users` (`username`, `name`, `surname`, `email`, `password`, `profile_picture_url`, `role_id`, `subscription_id`) VALUES
-('john_doe', 'John', 'Doe', 'john.doe@example.com', 'password123', 'https://imgur.com/a/el5idNE', 2, NULL),
-('jane_smith', 'Jane', 'Smith', 'jane.smith@example.com', 'password456', 'https://imgur.com/a/el5idNE', 3, 1);  -- premium user
+-- Insert Users
+INSERT INTO `users` (`username`, `name`, `surname`, `email`, `password`, `role_id`, `subscription_id`) VALUES
+('johndoe', 'John', 'Doe', 'johndoe@example.com', 'password123', 1, NULL),
+('janedoe', 'Jane', 'Doe', 'janedoe@example.com', 'password456', 2, NULL),
+('bobsmith', 'Bob', 'Smith', 'bobsmith@example.com', 'password789', 3, 1),
+('alicebrown', 'Alice', 'Brown', 'alicebrown@example.com', 'password101', 2, NULL),
+('chrisjohnson', 'Chris', 'Johnson', 'chrisjohnson@example.com', 'password112', 1, 2),
+('karenwhite', 'Karen', 'White', 'karenwhite@example.com', 'password131', 2, NULL),
+('lukegreen', 'Luke', 'Green', 'lukegreen@example.com', 'password415', 2, NULL),
+('emilydavis', 'Emily', 'Davis', 'emilydavis@example.com', 'password161', 2, 1),
+('michaelscott', 'Michael', 'Scott', 'michaelscott@example.com', 'password171', 1, 3),
+('jessicawilson', 'Jessica', 'Wilson', 'jessicawilson@example.com', 'password181', 3, 2);
 
--- Insert sample artists
+-- Insert Artists
 INSERT INTO `artists` (`name`, `biography`, `date_of_birth`, `profile_picture_url`) VALUES
-('Taylor Swift', 'American singer-songwriter.', '1989-12-13', 'https://imgur.com/a/el5idNE'),
-('Ed Sheeran', 'English singer-songwriter and record producer.', '1991-02-17', 'https://imgur.com/a/el5idNE');
+('Pink Floyd', 'An iconic English rock band formed in London.', '1965-01-01', 'https://imgur.com/pinkfloyd'),
+('AC/DC', 'A legendary rock band from Australia.', '1973-02-01', 'https://imgur.com/acdc'),
+('The Beatles', 'English rock band formed in Liverpool.', '1960-01-01', 'https://imgur.com/thebeatles'),
+('Michael Jackson', 'The King of Pop, an American singer and dancer.', '1958-08-29', 'https://imgur.com/michaeljackson'),
+('Bruce Springsteen', 'American singer-songwriter, known as "The Boss".', '1949-09-23', 'https://imgur.com/brucespringsteen'),
+('Fleetwood Mac', 'British-American rock band formed in London.', '1967-07-01', 'https://imgur.com/fleetwoodmac'),
+('Queen', 'British rock band known for its flamboyant lead singer.', '1970-07-01', 'https://imgur.com/queen'),
+('The Eagles', 'American rock band formed in Los Angeles.', '1971-01-01', 'https://imgur.com/eagles'),
+('Elton John', 'English singer, pianist, and composer.', '1947-03-25', 'https://imgur.com/eltonjohn'),
+('Led Zeppelin', 'British rock band known for their heavy sound.', '1968-01-01', 'https://imgur.com/ledzeppelin');
 
--- Insert sample genres
-INSERT INTO `genres` (`genre_name`) VALUES 
-('Pop'),
+-- Insert Genres
+INSERT INTO `genres` (`genre_name`) VALUES
 ('Rock'),
-('Country');
+('Pop'),
+('Classical'),
+('Jazz'),
+('Hip Hop'),
+('Electronic'),
+('Country'),
+('Blues'),
+('Reggae'),
+('Metal');
 
--- Insert sample albums
+-- Insert Albums
 INSERT INTO `albums` (`title`, `artist_id`, `genre_id`, `release_date`, `cover_image_url`, `price`) VALUES
-('1989', 1, 1, '2014-10-27', 'https://imgur.com/a/el5idNE', 9.99),
-('Divide', 2, 1, '2017-03-03', 'https://imgur.com/a/el5idNE', 11.99);
+('The Dark Side of the Moon', 1, 1, '1973-03-01', 'https://imgur.com/darkside', 20.00),
+('Highway to Hell', 2, 1, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
+('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'https://imgur.com/sgtpeppers', 25.00),
+('Bad', 4, 2, '1987-08-31', 'https://imgur.com/bad', 18.00),
+('The River', 5, 1, '1980-10-17', 'https://imgur.com/theriver', 22.00),
+('Tango in the Night', 6, 1, '1987-04-13', 'https://imgur.com/tango', 20.00),
+('Innuendo', 7, 1, '1991-02-04', 'https://imgur.com/innuendo', 21.00),
+('Greatest Hits', 8, 2, '1976-02-22', 'https://imgur.com/greatesthits', 18.00),
+('Goodbye Yellow Brick Road', 9, 2, '1973-10-05', 'https://imgur.com/yellowbrickroad', 24.00),
+('Physical Graffiti', 10, 1, '1975-02-24', 'https://imgur.com/physicalgraffiti', 23.00);
 
--- Insert sample tracks (songs)
+-- Insert Tracks for Albums
 INSERT INTO `tracks` (`title`, `album_id`, `artist_id`, `duration_seconds`, `track_number`, `audio_url`) VALUES
-('Shake It Off', 1, 1, 219, 1, 'https://example.com/shake_it_off.mp3'),
-('Shape of You', 2, 2, 233, 1, 'https://example.com/shape_of_you.mp3');
+('Breathe', 1, 1, 167, 1, 'https://audio.com/breathe.mp3'),
+('Time', 1, 1, 412, 2, 'https://audio.com/time.mp3'),
+('Money', 1, 1, 382, 3, 'https://audio.com/money.mp3'),
+('Highway to Hell', 2, 2, 208, 1, 'https://audio.com/highwaytohell.mp3'),
+('Hell Ain\'t a Bad Place to Be', 2, 2, 217, 2, 'https://audio.com/hellaintabadplacetobe.mp3'),
+('Girls Got Rhythm', 2, 2, 231, 3, 'https://audio.com/girlsgotrhythm.mp3'),
+('A Day in the Life', 3, 3, 378, 1, 'https://audio.com/adayinthelife.mp3'),
+('Lucy in the Sky with Diamonds', 3, 3, 203, 2, 'https://audio.com/lucyinthesky.mp3'),
+('With a Little Help from My Friends', 3, 3, 173, 3, 'https://audio.com/withalittlehelp.mp3'),
+('Bad', 4, 4, 255, 1, 'https://audio.com/bad.mp3');
 
--- Insert sample playlists
+-- Insert Playlists
 INSERT INTO `playlists` (`user_id`, `playlist_name`, `description`) VALUES
-(1, 'John’s Favorite Songs', 'A collection of John’s favorite tracks'),
-(2, 'Jane’s Workout Playlist', 'Upbeat songs for a great workout');
+(1, 'My Rock Classics', 'A collection of rock classics'),
+(2, 'My 80s Hits', 'All-time favorite 80s hits'),
+(3, 'The Beatles Best', 'The ultimate Beatles playlist'),
+(4, 'Michael Jackson Hits', 'The King of Pop’s best tracks'),
+(5, 'Springsteen\'s Greatest', 'Songs from Bruce Springsteen'),
+(6, 'Eagles Classics', 'Timeless Eagles hits'),
+(7, 'Beatles Gold', 'Classic Beatles tracks'),
+(8, 'Fleetwood Mac Tunes', 'Best of Fleetwood Mac'),
+(9, 'Queen\'s Greatest', 'Legendary Queen tracks'),
+(10, 'Best of Pink Floyd', 'Floyd at their best');
 
--- Insert sample playlist tracks (associating tracks with playlists)
+-- Insert Playlist Tracks (ensure we reference only available tracks)
 INSERT INTO `playlist_tracks` (`playlist_id`, `track_id`) VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
 
--- Insert sample streaming history
+
+-- Insert Streaming History for users
 INSERT INTO `streaming_history` (`user_id`, `track_id`, `timestamp`) VALUES
 (1, 1, '2025-02-16 12:00:00'),
-(2, 2, '2025-02-16 12:05:00');
+(1, 2, '2025-02-16 12:05:00'),
+(2, 4, '2025-02-16 12:10:00'),
+(2, 5, '2025-02-16 12:20:00'),
+(3, 7, '2025-02-16 13:00:00'),
+(3, 8, '2025-02-16 13:05:00'),
+(4, 3, '2025-02-16 14:00:00'),
+(4, 6, '2025-02-16 14:15:00'),
+(5, 9, '2025-02-16 15:00:00'),
+(5, 10, '2025-02-16 15:10:00');
 
--- Insert sample subscription types
+-- Insert Subscription Types
 INSERT INTO `subscription_types` (`type_name`, `price`, `description`) VALUES
-('free', 0.00, 'Basic access with limited features.'),
-('basic', 5.99, 'Access to standard content with ads.'),
-('premium', 15.99, 'Full access with no ads, exclusive content, and priority support.');
+('Free', 0.00, 'Limited access to content with advertisements'),
+('Basic', 5.00, 'Access to all content with no ads'),
+('Premium', 15.00, 'Full access to all content, exclusive features, and ad-free experience');
 
--- Example insert into subscriptions table using the new subscription_types table
+-- Insert Subscriptions
 INSERT INTO `subscriptions` (`user_id`, `subscription_type_id`, `start_date`, `end_date`, `status`) VALUES
-(1, 1, '2025-01-01', NULL, 'active'),  -- free subscription for user 1
-(2, 3, '2025-01-01', '2026-01-01', 'active');  -- premium subscription for user 2
+(1, 1, '2025-01-01', '2025-01-31', 'active'),  -- Free plan for user 1
+(2, 2, '2025-02-01', '2026-02-01', 'active'),  -- Basic plan for user 2
+(3, 3, '2025-02-15', '2026-02-15', 'active'),  -- Premium plan for user 3
+(4, 1, '2025-02-01', '2025-02-28', 'inactive'),  -- Free plan for user 4
+(5, 2, '2025-01-01', '2026-01-01', 'active'),  -- Basic plan for user 5
+(6, 3, '2025-02-01', '2026-02-01', 'inactive'),  -- Premium plan for user 6
+(7, 1, '2025-02-01', '2025-02-28', 'active'),  -- Free plan for user 7
+(8, 2, '2025-01-01', '2026-01-01', 'active'),  -- Basic plan for user 8
+(9, 3, '2025-02-15', '2026-02-15', 'active'),  -- Premium plan for user 9
+(10, 1, '2025-01-01', '2025-01-31', 'inactive');  -- Free plan for user 10
 
--- Insert sample payment methods
+-- Insert Payment Methods
 INSERT INTO `payment_methods` (`user_id`, `method_type`, `payment_details`) VALUES
-(2, 'Debit Card', '{"card_number": "1234-5678-9876-5432", "expiry": "12/25", "billing_address": "123 Main St"}');
+(1, 'Debit Card', 'Visa ending in 1234'),
+(2, 'PayPal', 'paypal@example.com'),
+(3, 'Google Pay', 'googlepay@example.com'),
+(4, 'On Pickup', 'Cash on delivery'),
+(5, 'Debit Card', 'MasterCard ending in 5678'),
+(6, 'PayPal', 'anotherpaypal@example.com'),
+(7, 'Google Pay', 'googlepayuser7@example.com'),
+(8, 'On Pickup', 'Cash on delivery'),
+(9, 'Debit Card', 'Visa ending in 9012'),
+(10, 'PayPal', 'user10paypal@example.com');
 
--- Insert sample reviews for products (albums or tracks)
-INSERT INTO `reviews` (`user_id`, `product_id`, `rating`, `review_text`) VALUES
-(1, 1, 5, 'Absolutely love this album! It’s a masterpiece!'),
-(2, 2, 4, 'Great song, but it could be a bit longer.');
+-- Insert Reviews for Products
+INSERT INTO `reviews` (`user_id`, `product_id`, `rating`, `review_text`, `review_date`) VALUES
+(1, 1, 5, 'Absolutely mind-blowing album! A masterpiece of progressive rock.', '2025-02-16 12:00:00'),
+(2, 2, 4, 'Great rock album, but some songs feel a bit repetitive.', '2025-02-16 12:05:00'),
+(3, 3, 5, 'One of the best albums of all time. A true classic!', '2025-02-16 12:10:00'),
+(4, 4, 5, 'The King of Pop! Timeless hits that never get old.', '2025-02-16 12:15:00'),
+(5, 5, 4, 'Great rock songs, but a bit long at times.', '2025-02-16 12:20:00'),
+(6, 6, 5, 'This album is fantastic, full of energy and great melodies.', '2025-02-16 12:25:00'),
+(7, 7, 4, 'Great hits, but some songs could be more experimental.', '2025-02-16 12:30:00'),
+(8, 8, 3, 'Some good tracks, but I expected more from Fleetwood Mac.', '2025-02-16 12:35:00'),
+(9, 9, 5, 'Queen is legendary! Every song is pure magic!', '2025-02-16 12:40:00'),
+(10, 10, 5, 'Pink Floyd is a true musical genius. Their albums never disappoint.', '2025-02-16 12:45:00');
