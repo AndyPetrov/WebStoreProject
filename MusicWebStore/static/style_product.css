@@ -20,7 +20,7 @@
 }
 
 * {
-    font-family: Comfortaa-Regular;
+    font-family: Comfortaa-Regular !important;
   }
 
 .page_body {
@@ -318,3 +318,110 @@
     right: 0;
 }
 
+.music-controller {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--black);
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    border-radius: 25px;
+    width: 90%;
+    height: 60px;
+}
+
+/* Left Section - Album & Song Info */
+.music-controller-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controller-album-art {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.music-controller-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.controller-song {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.controller-artist {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Center Section - Playback Controls */
+.music-controller-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.controller-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controller-button {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.controller-button:hover {
+    opacity: 0.7;
+}
+
+/* Progress Bar */
+.controller-progress-back {
+    width: 200px;
+    height: 5px;
+    background-color: var(--white);
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.controller-progress {
+    width: 0%;
+    height: 100%;
+    background-color: var(--white);
+    transition: width 0.2s;
+}
+
+/* Right Section - Volume & Settings */
+.music-controller-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controller-volume {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    height: 5px;
+    background: var(--white);
+    border-radius: 25px;
+    cursor: pointer;
+}
