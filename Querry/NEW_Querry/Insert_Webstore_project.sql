@@ -43,18 +43,19 @@ INSERT INTO `genres` (`genre_name`) VALUES
 ('Reggae'),
 ('Metal');
 
--- Insert Albums
+-- Insert Albums with Specified Genre IDs between 1 and 10
 INSERT INTO `albums` (`title`, `artist_id`, `genre_id`, `release_date`, `cover_image_url`, `price`) VALUES
-('The Dark Side of the Moon', 1, 1, '1973-03-01', 'https://imgur.com/darkside', 20.00),
-('Highway to Hell', 2, 1, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
+('The Dark Side of the Moon', 1, 3, '1973-03-01', 'https://imgur.com/darkside', 20.00),
+('Highway to Hell', 2, 5, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
 ('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'https://imgur.com/sgtpeppers', 25.00),
-('Bad', 4, 2, '1987-08-31', 'https://imgur.com/bad', 18.00),
-('The River', 5, 1, '1980-10-17', 'https://imgur.com/theriver', 22.00),
-('Tango in the Night', 6, 1, '1987-04-13', 'https://imgur.com/tango', 20.00),
-('Innuendo', 7, 1, '1991-02-04', 'https://imgur.com/innuendo', 21.00),
-('Greatest Hits', 8, 2, '1976-02-22', 'https://imgur.com/greatesthits', 18.00),
-('Goodbye Yellow Brick Road', 9, 2, '1973-10-05', 'https://imgur.com/yellowbrickroad', 24.00),
-('Physical Graffiti', 10, 1, '1975-02-24', 'https://imgur.com/physicalgraffiti', 23.00);
+('Bad', 4, 8, '1987-08-31', 'https://imgur.com/bad', 18.00),
+('The River', 5, 4, '1980-10-17', 'https://imgur.com/theriver', 22.00),
+('Tango in the Night', 6, 7, '1987-04-13', 'https://imgur.com/tango', 20.00),
+('Innuendo', 7, 2, '1991-02-04', 'https://imgur.com/innuendo', 21.00),
+('Greatest Hits', 8, 6, '1976-02-22', 'https://imgur.com/greatesthits', 18.00),
+('Goodbye Yellow Brick Road', 9, 9, '1973-10-05', 'https://imgur.com/yellowbrickroad', 24.00),
+('Physical Graffiti', 10, 10, '1975-02-24', 'https://imgur.com/physicalgraffiti', 23.00);
+
 
 -- Insert Tracks for Albums
 INSERT INTO `tracks` (`title`, `album_id`, `artist_id`, `duration_seconds`, `track_number`, `audio_url`) VALUES
