@@ -1,0 +1,180 @@
+:root {
+    --black: rgb(34, 40, 49);
+    --gray: rgb(57, 62, 70);
+    --gray2: rgb(78, 84, 94);
+    --orange: rgb(214, 90, 49);
+    --orange2: rgb(192, 84, 48);
+    --white: rgb(238, 238, 238);
+    --red: rgb(206, 31, 54);
+    --red2: rgb(177, 42, 42);
+    --border-radius: 25px;
+    --transition: 0.3s ease-in-out;
+}
+
+@font-face {
+    font-family: Comfortaa-Regular;
+    src: url(../Fonts/Comfortaa-Regular.ttf);
+}
+@font-face {
+    font-family: Comfortaa-Bold;
+    src: url(../Fonts/Comfortaa-Bold.ttf);
+}
+
+* {
+    font-family: Comfortaa-Regular !important;
+  }
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
+.auth-container {
+    background: var(--gray);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    width: 350px;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.auth-container.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.auth-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+    transition: color var(--transition);
+}
+
+.tab-button:hover {
+    font-weight: bolder;
+}
+
+.tab-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 50%;
+    height: 2px;
+    background: var(--white);
+    transform: translateX(-50%);
+    transition: width var(--transition);
+}
+
+.tab-button:hover::after {
+    width: 80%;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--transition), transform var(--transition);
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.auth-form.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.auth-form label {
+    text-align: left;
+    font-size: 14px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group input {
+    padding: 10px;
+    border: 1px solid var(--white);
+    background: none;
+    color: var(--white);
+    border-radius: var(--border-radius);
+    outline: none;
+    width: 100%;
+    position: relative;
+    transition: border var(--transition);
+}
+
+.input-group input:focus {
+    outline: 2px solid var(--white);
+    border: none;
+}
+
+.input-group input:hover {
+    outline: 2px solid var(--white);
+    border: none;
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.primary-button {
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--white);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.primary-button:hover {
+    background: var(--gray);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.secondary-button {
+    background: none;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.secondary-button:hover {
+    background: var(--red);
+    color: var(--black);
+    border: 1px solid var(--red);
+    transform: scale(1.05);
+}
