@@ -1,297 +1,296 @@
 :root {
-    --black: rgb(34, 40, 49);
-    --gray: rgb(57, 62, 70);
-    --gray2: rgb(78, 84, 94);
-    --orange: rgb(214, 90, 49);
-    --orange2:rgb(192, 84, 48);
-    --white: rgb(238, 238, 238);
-    --red:rgb(206, 31, 54);
-    --red2: rgb(177, 42, 42);
-    --green: rgb(15, 136, 15);
+	--black: rgb(34, 40, 49);
+	--gray: rgb(57, 62, 70);
+	--gray2: rgb(78, 84, 94);
+	--orange: rgb(214, 90, 49);
+	--orange2:rgb(192, 84, 48);
+	--white: rgb(238, 238, 238);
+	--red:rgb(206, 31, 54);
+	--red2: rgb(177, 42, 42);
+	--green: rgb(15, 136, 15);
 }
   
 @font-face {
-    font-family: Comfortaa-Regular;
-    src: url(../Fonts/Comfortaa-Regular.ttf);
+	font-family: Comfortaa-Regular;
+	src: url(../Fonts/Comfortaa-Regular.ttf);
 }
 @font-face {
-    font-family: Comfortaa-Bold;
-    src: url(../Fonts/Comfortaa-Bold.ttf);
+	font-family: Comfortaa-Bold;
+	src: url(../Fonts/Comfortaa-Bold.ttf);
 }
 
 
 * {
-    font-family: Comfortaa-Regular;
+	font-family: Comfortaa-Regular;
   }
-
+  
 .page_body {
-    background-color: var(--black);
-    overflow-x: hidden;
+	background-color: var(--black);
+	overflow-x: hidden;
 }
 
 .centeredParagraph{
-    text-align: justify;
-    font-family: Comfortaa-Regular;
-    font-size: 1.4vw;
-    color: var(--white);
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
-    line-height: 150%;
+	text-align: justify;
+	font-family: Comfortaa-Regular;
+	font-size: 1.4vw;
+	color: var(--white);
+	margin-top: 5%;
+	margin-left: 10%;
+	margin-right: 10%;
+	line-height: 150%;
 }
   
 .button {
-    background-color: var(--orange);
-    color: var(--white);
+	background-color: var(--orange);
+	color: var(--white);
 }
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--black);
-    padding: 10px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--black);
+	padding: 10px 20px;
 }
 
 .navbar-left,
 .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
 }
 
 .navbar-button {
-    background: none;
-    border: 2px solid var(--white);
-    color: var(--white);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	background: none;
+	border: 2px solid var(--white);
+	color: var(--white);
+	padding: 8px 15px;
+	border-radius: 20px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: all 0.3s ease;
 }
 
 .navbar-button:hover {
-    background: var(--white);
-    color: var(--black);
+	background: var(--white);
+	color: var(--black);
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    background: var(--white);
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: none;
+	display: flex;
+	align-items: center;
+	background: var(--white);
+	padding: 8px 15px;
+	border-radius: 20px;
+	border: none;
 }
 
 .search-bar input {
-    border: none;
-    outline: none;
-    font-size: 16px;
-    width: 200px;
+	border: none;
+	outline: none;
+	font-size: 16px;
+	width: 200px;
 }
 
 .profile-button {
-    background: none;
-    border: 2px solid var(--white);
-    color: var(--white);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
+	background: none;
+	border: 2px solid var(--white);
+	color: var(--white);
+	padding: 8px 15px;
+	border-radius: 20px;
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	transition: all 0.3s ease;
 }
 
 .profile-button:hover {
-    background: var(--white);
-    color: var(--black);
+	background: var(--white);
+	color: var(--black);
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .dropdown-btn {
-    position: relative;
-    z-index: 2;
+	position: relative;
+	z-index: 2;
 }
 
 /* Dropdown Menu */
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    background: var(--black);
-    border: 2px solid var(--white);
-    border-radius: 10px;
-    top: 100%;
-    left: 0;
-    min-width: 150px;
-    padding: 8px 0;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	display: none;
+	position: absolute;
+	background: var(--black);
+	border: 2px solid var(--white);
+	border-radius: 10px;
+	top: 100%;
+	left: 0;
+	min-width: 150px;
+	padding: 8px 0;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown-menu a {
-    display: block;
-    padding: 10px 15px;
-    color: var(--white);
-    text-decoration: none;
-    font-size: 16px;
-    transition: background 0.3s;
+	display: block;
+	padding: 10px 15px;
+	color: var(--white);
+	text-decoration: none;
+	font-size: 16px;
+	transition: background 0.3s;
 }
 
 .dropdown-menu a:hover {
-    background: var(--white);
-    color: var(--black);
+	background: var(--white);
+	color: var(--black);
 }
 
 /* Show Dropdown on Hover */
 .dropdown:hover .dropdown-menu {
-    display: block;
+	display: block;
 }
 
 
 .banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--red);
-    padding: 40px;
-    color: var(--white);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--red);
+	padding: 40px;
+	color: var(--white);
 }
 
 .banner-content {
-    flex: 1;
-    text-align: center;
+	flex: 1;
+	text-align: center;
 }
 
 .banner h1 {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 10px;
+	font-size: 32px;
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 
 .banner p {
-    font-size: 18px;
-    margin-bottom: 15px;
+	font-size: 18px;
+	margin-bottom: 15px;
 }
 
 .banner-price {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 15px;
 }
 
 .banner .album-cover {
-    width: 250px;
-    height: 250px;
-    border-radius: 10px;
+	width: 250px;
+	height: 250px;
+	border-radius: 10px;
 }
 
 .banner .add-to-cart{
-    background-color: var(--red);
-    border-radius: 15px;
-    border-color: var(--white);
-    border: 2px;
+	background-color: var(--red);
+	border-radius: 15px;
+	border-color: var(--white);
+	border: 2px;
 }
 
 .item-menu-container {
-    margin-top: 20px;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--black);
-    padding: 10px 20px;
-    box-sizing: border-box; /* Prevents overflow issues */
+	margin-top: 20px;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	background-color: var(--black);
+	padding: 10px 20px;
+	box-sizing: border-box; /* Prevents overflow issues */
 }
 
 .item-menu {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 20px 30px; /* Added left padding */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
+	display: flex;
+	gap: 15px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	padding: 20px 30px; /* Added left padding */
+	scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
 /* Hide scrollbar for Chrome, Safari */
 .item-menu::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 
 .item {
-    background-color: var(--black);
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-    min-width: 180px;
-    max-width: 180px;
-    flex-shrink: 0;
-    color: var(--white);
+	background-color: var(--black);
+	border-radius: 15px;
+	padding: 15px;
+	text-align: center;
+	min-width: 180px;
+	max-width: 180px;
+	flex-shrink: 0;
+	color: var(--white);
 }
 
 .item img {
-    width: 100%;
-    border-radius: 10px;
+	width: 100%;
+	border-radius: 10px;
 }
 
 .item-title {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 10px 0 5px;
+	font-size: 16px;
+	font-weight: bold;
+	margin: 10px 0 5px;
 }
 
 .item-price {
-    font-size: 14px;
-    margin-bottom: 10px;
+	font-size: 14px;
+	margin-bottom: 10px;
 }
 
 .add-to-cart {
-    background-color: var(--black);
-    color: var(--white);
-    border: 2px;
-    border-color: var(--white);
-    padding: 8px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	background-color: var(--black);
+	color: var(--white);
+	border: 2px;
+	border-color: var(--white);
+	padding: 8px 12px;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: all 0.3s ease;
 }
 
 .add-to-cart:hover {
-    background-color: var(--white);
-    color: var(--black);
+	background-color: var(--white);
+	color: var(--black);
 }
 
 /* Scroll buttons */
 .scroll-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: var(--black);
-    color: var(--white);
-    border: 2px solid var(--white); /* Added white border */
-    cursor: pointer;
-    padding: 10px 15px;
-    font-size: 24px;
-    height: 100%;
-    border-radius: 20px; /* Matching navbar button style */
-    transition: all 0.3s ease;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: var(--black);
+	color: var(--white);
+	border: 2px solid var(--white); /* Added white border */
+	cursor: pointer;
+	padding: 10px 15px;
+	font-size: 24px;
+	height: 100%;
+	border-radius: 20px; /* Matching navbar button style */
+	transition: all 0.3s ease;
 }
 
 .scroll-button:hover {
-    background-color: var(--white);
-    color: var(--black);
+	background-color: var(--white);
+	color: var(--black);
 }
 
 .scroll-left {
-    left: 0;
+	left: 0;
 }
 
 .scroll-right {
-    right: 0;
+	right: 0;
 }
-
 

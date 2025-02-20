@@ -1,173 +1,66 @@
 <!DOCTYPE html>
 <head>
-    <link rel="stylesheet" href="../static/style_products.css">
-    <script src="scripts.js"></script>
+	<link rel="stylesheet" href="../static/style_products.css">
+	<script src="scripts.js"></script>	
 </head>
 
 <body class="page_body">
-    <nav class="navbar">
-        <div class="navbar-left">
-            <div class="dropdown">
-                <button class="navbar-button dropdown-btn">Categories ▼</button>
-                <div class="dropdown-menu">
-                    <a href="#">Albums</a>
-                    <a href="#">Singles</a>
-                    <a href="#">Clothing</a>
-                    <a href="#">Shoes</a>
-                    <a href="#">Other</a>
-                </div>
-            </div>
-            <button class="navbar-button">Charts</button>
-        </div>
+	<nav class="navbar">
+		<div class="navbar-left">
+			<div class="dropdown">
+				<button class="navbar-button dropdown-btn">Categories ▼</button>
+				<div id = "categories" class="dropdown-menu">
+					<a data-category = "albums" href="#">Albums</a>
+					<a data-category = "singles" href="#">Singles</a>
+					<a data-category = "clothing" href="#">Clothing</a>
+					<a data-category = "shoes" href="#">Shoes</a>
+					<a data-category = "other" href="#">Other</a>
+				</div>	
+			<button class="navbar-button">Charts</button>
+		</div>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-        </div>
+		<div class="search-bar">
+			<input type="text" placeholder="Search...">
+		</div>
 
-        <div class="navbar-right">
-            <button class="profile-button">
-                Profile
-                <span>👤</span>
-            </button>
-        </div>
-    </nav>
+		<div class="navbar-right">
+			<button class="profile-button">
+				Profile
+				<span>👤</span>
+			</button>
+		</div>
+	</nav>
 
-    <div class="store-header">
-        <h2>Product Category Name</h2>
-        <div class="sort">
-            Sort: <span class="sort-option">Ascending ↓</span>
-        </div>
-    </div>
+	<div id = "category-header" class="store-header">
+		<h2 id = "header" >Product Category Name</h2>
+		<div  class="sort">
+			Sort: <span id = "sort-by-name" class="sort-option">Ascending by album name</span>
+		</div>
+	</div>
 
-    <!-- Store Layout -->
-    <div class="store-container">
-        <aside class="filter-sidebar">
-            <!-- Filter options go here -->
-        </aside>
+	<!-- Store Layout -->
+	<div class="store-container">
+		<aside id = "filter-sidebar" class="filter-sidebar">
 
-        <div class="product-grid">
-            <!-- Repeat this block for each product -->
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
-            <div class="product">
-                <img src="Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-                <h3 class="product-title">The Life of Pablo</h3>
-                <p class="product-artist">By Kanye West</p>
-                <p class="product-price">29.99$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
-            </div>
+		</aside>
+		
+		<div id = "product-grid" class="product-grid">
+			<!-- Repeat this block for each product -->
 
-            <!-- More products go here -->
-        </div>
-    </div>
+		</div>
+	</div>
 
-    <!-- Load More Button -->
-    <div class="load-more-container">
-        <button class="load-more">Load More</button>
-    </div>
-
+	<!-- Load More Button -->
+	<div class="load-more-container">
+		<button class="load-more">Load More</button>
+	</div>
+	
+	<script>
+		const categoriesWithOptions = {{ categories_with_options | tojson }};
+		const albums = {{ albums | tojson }};
+		const artists = {{ artists | tojson }};
+	</script>
+	
+	<script src="../static/products_page_script.js"></script>
 </body>
 </html>

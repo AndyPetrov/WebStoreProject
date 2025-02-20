@@ -1,59 +1,74 @@
-from flask import Flask, render_template #install the package -> pip install flask mysql-connector-python
-import mysql.connector #install the package ->  pip install mysql-connector-python
+from flask import Flask, render_template
+import mysql.connector
 
 app = Flask(__name__)
 
 def get_database_connection():
     connection = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',
-        password = '',
-        database = 'webstore'
+        host='26.61.144.216',
+        user='tonkata',
+        password='123',
+        database='webstore'
     )
     return connection
 
-def get_music():
+# Get the genres from the database
+def get_genres():
     conn = get_database_connection()
     cursor = conn.cursor()
-    cursor.execute('SELECT `name`, `author`, `price`, `type` FROM `music`')
-
-    music = cursor.fetchall()
-
+    cursor.execute('SELECT `genre_id`, `genre_name` FROM `genres`')
+    genres = cursor.fetchall()
     cursor.close()
     conn.close()
-    return music
+    return genres
 
+# Get the albums from the database
+def get_albums():
+    conn = get_database_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT `album_id`, `title`, `genre_id`, `artist_id`, `price` FROM `albums`')
+    albums = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return albums
+
+# Get the artists from the database
+def get_artists():
+    conn = get_database_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT `artist_id`, `name` FROM `artists`')
+    artists = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return artists
+
+# Get dynamic filters (categories with options) from the database
 def get_dynamic_filter():
-    # Connect to the MySQL database
-    conn = get_database_connection()
-    cursor = conn.cursor()
-
-    # Fetch categories from the categories table
-    cursor.execute("SELECT * FROM categories")
-    categories = cursor.fetchall()
-
-    # Fetch options for each category
+    categories = ['By genre', 'By artist']
+    artists = get_artists()
+    genres = get_genres()
     categories_with_options = []
+
     for category in categories:
-        category_id = category[0]
-        cursor.execute(f"SELECT * FROM music_authors WHERE category_id = {category_id} UNION ALL SELECT * FROM type_music WHERE category_id = {category_id}")
-        options = cursor.fetchall()       
-        categories_with_options.append({
-            'category_name': category[1],
-            'options': options
-        })
-        
-    cursor.close()
-    conn.close()
+        if category == 'By genre':
+            list_genre = [{"id": genre_id, "name": genre_name} for genre_id, genre_name in genres]
+            categories_with_options.append({'category_name': category, 'options': list_genre})
+
+        elif category == 'By artist':
+            list_artist = [{"id": artist_id, "name": artist_name} for artist_id, artist_name in artists]
+            categories_with_options.append({'category_name': category, 'options': list_artist})
 
     return categories_with_options
 
-    
 @app.route('/')
 def all():
-    music = get_music()
+    artists = get_artists()
+    genres = get_genres()
+    albums = get_albums()
     categories_with_options = get_dynamic_filter()
-    return render_template('test.html', music = music, categories_with_options = categories_with_options)
+
+    # Pass all the data to the template
+    return render_template('products_page.html', artists=artists, genres=genres, albums=albums, categories_with_options=categories_with_options)
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
