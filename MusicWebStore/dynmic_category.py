@@ -1,13 +1,17 @@
 from flask import Flask, render_template
 import mysql.connector
+import os
 
-app = Flask(__name__)
+# Set the base directory, falling back to environment variable or __file__
+BASE_DIR = os.getenv('BASE_DIR', os.path.dirname(os.path.abspath(__file__)))
+
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'), static_folder=os.path.join(BASE_DIR, 'static'))
 
 def get_database_connection():
     connection = mysql.connector.connect(
-        host='26.61.144.216',
-        user='tonkata',
-        password='123',
+        host='localhost',
+        user='root',
+        password='',
         database='webstore'
     )
     return connection
