@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		let listAlbums = [];  // Initialize an array to hold the sorted albums
 		let productHTML = '';
 		
+		const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+		filterCheckboxes.forEach(checkbox => {
+			checkbox.checked = false;  // Uncheck all filters
+		});
+
 		allProducts.forEach(product => {
 			const product_name = product.getAttribute('data-name');
 			listAlbums.push(product_name);
@@ -46,9 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				
 			});	
 		});	
-		addFilterEventListeners();
+		
 		productsGenerator.innerHTML = productHTML;
 		allProducts = productsGenerator.querySelectorAll('.product');
+		addFilterEventListeners();
+		
 	});
 	
 	
