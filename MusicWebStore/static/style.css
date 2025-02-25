@@ -153,6 +153,30 @@
 	display: block;
 }
 
+.home-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px solid var(--white);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+/* Placeholder for Icon */
+.home-icon {
+    font-size: 18px; /* Adjust size as needed */
+}
+
 
 .banner {
 	display: flex;

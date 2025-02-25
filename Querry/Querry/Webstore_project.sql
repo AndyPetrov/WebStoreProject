@@ -45,7 +45,7 @@ CREATE TABLE `albums` (
     `artist_id` INT NOT NULL,
     `genre_id` INT NOT NULL,
     `release_date` DATE,
-    `cover_image_url` VARCHAR(255) DEFAULT 'https://imgur.com/a/el5idNE',
+    `cover_image_url` VARCHAR(255) DEFAULT 'static\images\default_album_cover.png',
     `price` DOUBLE(10,2) NOT NULL DEFAULT 0.00,
     FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -92,25 +92,16 @@ CREATE TABLE `streaming_history` (
     FOREIGN KEY (`track_id`) REFERENCES `tracks`(`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `subscription_types` (
-    `subscription_type_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `type_name` VARCHAR(255) NOT NULL UNIQUE,  -- e.g. 'free', 'basic', 'premium'
-    `price` DOUBLE(10,2) NOT NULL,  -- Price for the subscription type
-    `description` TEXT  -- Optional description for each subscription type
-);
-
--- Modify the subscriptions table to reference the new subscription_types table
+-- Subscriptions table for tracking premium membership and payment
 CREATE TABLE `subscriptions` (
     `subscription_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
-    `subscription_type_id` INT NOT NULL,  -- Now referencing subscription_types
+    `subscription_type` ENUM('free', 'premium') NOT NULL,
     `start_date` DATE NOT NULL,
     `end_date` DATE,
     `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`subscription_type_id`) REFERENCES `subscription_types`(`subscription_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 
 -- Payment methods for users
 CREATE TABLE `payment_methods` (

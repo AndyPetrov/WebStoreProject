@@ -45,7 +45,7 @@ INSERT INTO `genres` (`genre_name`) VALUES
 
 -- Insert Albums with Specified Genre IDs between 1 and 10
 INSERT INTO `albums` (`title`, `artist_id`, `genre_id`, `release_date`, `cover_image_url`, `price`) VALUES
-('The Dark Side of the Moon', 1, 3, '1973-03-01', 'https://imgur.com/darkside', 20.00),
+('The Dark Side of the Moon', 1, 3, '1973-03-01', 'static\images\Dark_Side_of_the_Moon', 20.00),
 ('Highway to Hell', 2, 5, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
 ('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'https://imgur.com/sgtpeppers', 25.00),
 ('Bad', 4, 8, '1987-08-31', 'https://imgur.com/bad', 18.00),
