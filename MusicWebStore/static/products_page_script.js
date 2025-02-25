@@ -36,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	function filteredAlbumGen(listAlbums)
 	{
 		let productHTML = '';
-		Ordered = true;
+		br = 0;
+		
 		listAlbums.forEach(albumFromList => {
 			albums.forEach(album => {
 				console.log('Album:', album);
@@ -69,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	function AlbumGen()
 	{
+		br = 0;
 		let productHTML = '';
 		albums.forEach(album => {
 			console.log('Album:', album);
