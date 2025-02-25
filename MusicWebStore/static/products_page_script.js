@@ -4,30 +4,39 @@ document.addEventListener("DOMContentLoaded", function () {
 	const productsGenerator = document.getElementById('product-grid');
 	var allProducts = productsGenerator.querySelectorAll('.product');
 	const sortByName = document.getElementById('sort-by-name');
-	// Hide the filter sidebar initially
+	const loadButton = document.getElementById('load-button');
+	var br = 0;
+	var currentAlbums = 20;
+	var Ordered = false;
+
 	
 	
 	allProducts.forEach(product => {
-		product.classList.add('hidden');  // Hide all products initially
+		product.classList.add('hidden');
 	});
 
-	// Listen for category selection
 	const categoryLinks = document.querySelectorAll('#categories a');
-	
-	sortByName.addEventListener('click', function() {
-		let listAlbums = [];  // Initialize an array to hold the sorted albums
-		let productHTML = '';
+
+	function getAlbums()
+	{
+		let listAlbums = [];  
 		
 		const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
 		filterCheckboxes.forEach(checkbox => {
-			checkbox.checked = false;  // Uncheck all filters
+			checkbox.checked = false;
 		});
 
-		allProducts.forEach(product => {
-			const product_name = product.getAttribute('data-name');
-			listAlbums.push(product_name);
+		albums.forEach(album => {
+			listAlbums.push(album[1]);
 		});
-		listAlbums.sort((a, b) => a.localeCompare(b));
+
+		return listAlbums;
+	}
+
+	function filteredAlbumGen(listAlbums)
+	{
+		let productHTML = '';
+		Ordered = true;
 		listAlbums.forEach(albumFromList => {
 			albums.forEach(album => {
 				console.log('Album:', album);
@@ -37,7 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						artistName = artist[1];
 					}
 				})}
-				if (album[1] === albumFromList) {
+				if (album[1] === albumFromList && br <= currentAlbums) 
+				{
 					productHTML += ` 
 					<div class = "product" data-genre="${album[2]}" data-artist="${album[3]}" data-name = "${album[1]}">
 					<img src="../Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
@@ -47,15 +57,94 @@ document.addEventListener("DOMContentLoaded", function () {
 					<button class = "product-button">Add to Cart 🛒</button>
 					</div>
 					`;
+					br = br + 1;
 				}
-				
 			});	
-		});	
+						
+		});
+		br = 0;
+		return productHTML;
+
+	}
+
+	function AlbumGen()
+	{
+		let productHTML = '';
+		albums.forEach(album => {
+			console.log('Album:', album);
+			let artistName = '';
+			{artists.forEach(artist => {
+				if (artist[0] === album[3]) {
+					artistName = artist[1];
+				}
+			})}
+
+			if (br <= currentAlbums) 
+			{
+				productHTML += ` 
+				<div class = "product" data-genre="${album[2]}" data-artist="${album[3]}" data-name = "${album[1]}">
+				<img src="../Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
+				<h3 class = "product-title">${album[1]}</h3>
+				<p class = "product-artist">${artistName}</p>
+				<p class = "product-price">${album[4]}$</p>
+				<button class = "product-button">Add to Cart 🛒</button>
+				</div>
+				`;
+				br = br + 1;
+			}
+		});
+
+		return productHTML;
+	}
+
+	loadButton.addEventListener('click', function() 
+	{
+		let listAlbums = getAlbums();
+		let productHTML = '';	
 		
+		if (currentAlbums <= listAlbums.length)
+		{
+			const filterCheckboxes = document.querySelectorAll('.filter-checkbox');			
+			filterCheckboxes.forEach(checkbox => {
+			checkbox.checked = false;
+			});
+
+			currentAlbums = currentAlbums + 20;
+			if (Ordered == false) 
+			{
+				productHTML += AlbumGen();
+			}
+			else
+			{
+				listAlbums.sort((a, b) => a.localeCompare(b));
+				productHTML += filteredAlbumGen(listAlbums);
+			}
+			productsGenerator.innerHTML = productHTML;
+        	allProducts = productsGenerator.querySelectorAll('.product');
+        	addFilterEventListeners();
+		} 
+		else
+		{
+			const filterCheckboxes = document.querySelectorAll('.filter-checkbox');			
+			filterCheckboxes.forEach(checkbox => {
+			checkbox.checked = false;
+			});
+			allProducts.forEach(product => product.style.display = 'block');
+		}
+			
+		
+					
+	});
+	
+	sortByName.addEventListener('click', function() {
+		let listAlbums = getAlbums();
+		let productHTML = '';
+		Ordered = true;
+		listAlbums.sort((a, b) => a.localeCompare(b));		
+		productHTML = filteredAlbumGen(listAlbums);						
 		productsGenerator.innerHTML = productHTML;
 		allProducts = productsGenerator.querySelectorAll('.product');
 		addFilterEventListeners();
-		
 	});
 	
 	
@@ -71,10 +160,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		const category = item.getAttribute('data-category');
 		
 		if (category === 'albums') {
-			categoryHeader.textContent = 'Albums'; // Set the header text
-			
-			let filterHTML = '';  // Initialize filter HTML string
-			let productHTML = '';  // Initialize product HTML string
+			categoryHeader.textContent = 'Albums';
+			let filterHTML = '';
+			currentAlbums = 20;
+			let productHTML = AlbumGen();
+
 			categoriesWithOptions.forEach(categoryData => {
 				if (categoryData.category_name === 'By genre' || categoryData.category_name === 'By artist') {
 					filterHTML += `
@@ -91,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			});
 			
-			// Add a "Show All" link at the end
+
 			filterHTML += `
 				<div class="submenu-section">Other Options</div>
 				<div class="filter-option show-all">
@@ -99,43 +189,22 @@ document.addEventListener("DOMContentLoaded", function () {
 				</div>
 			`;
 			
-			albums.forEach(album => {
-				console.log('Album:', album);
-				let artistName = '';
-				{artists.forEach(artist => {
-					if (artist[0] === album[3]) {
-						artistName = artist[1];
-					}
-				})}
-				
-				productHTML += ` 
-				<div class = "product" data-genre="${album[2]}" data-artist="${album[3]}" data-name = "${album[1]}">
-				<img src="../Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Product Image">
-				<h3 class = "product-title">${album[1]}</h3>
-				<p class = "product-artist">${artistName}</p>
-				<p class = "product-price">${album[4]}$</p>
-				<button class = "product-button">Add to Cart 🛒</button>
-				</div>
-				`;
-			});
-			
+			filterSidebar.style.display = 'block';
+			filterSidebar.innerHTML = filterHTML; 
 
-			// Insert filter HTML into the sidebar
-			
-			filterSidebar.style.display = 'block'; // Show filter sidebar
-			filterSidebar.innerHTML = filterHTML; // Insert filter HTML into the sidebar
-			// Add event listeners to the filter checkboxes
 			addFilterEventListeners();
 			
-			productsGenerator.innerHTML = productHTML; // Insert product HTML into the products gridrator.innerHTML = productHTML; // Insert product HTML into the products gridrator.innerHTML = productHTML; // Insert product HTML into the products grid
+			productsGenerator.innerHTML = productHTML; 
 			allProducts.forEach(product => {
-				product.classList.remove('hidden');  // Hide all products initially
+				product.classList.remove('hidden'); 
 			});
 			allProducts = productsGenerator.querySelectorAll('.product');
-		} else {
-			// Hide filter sidebar if another category is selected
+			br = 0;
+		} 
+		else 
+		{
 			filterSidebar.style.display = 'none';
-			allProducts.forEach(product => product.classList.add('hidden')); // Hide all products
+			allProducts.forEach(product => product.classList.add('hidden')); 
 		}
 	}
 
@@ -146,17 +215,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			checkbox.addEventListener('change', filterAlbums);
 		});
 
-		// Show All link
+
 		const showAllLink = document.getElementById('show-all-link');
 		if (showAllLink) {
 			showAllLink.addEventListener('click', function(event) {
 				event.preventDefault();
 				
 				filterCheckboxes.forEach(checkbox => {
-					checkbox.checked = false;  // Uncheck all filters
+					checkbox.checked = false; 
 				});
 
-				// Show all products
+				
 				allProducts.forEach(product => product.style.display = 'block');
 			});
 		}
@@ -165,18 +234,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	function filterAlbums() {
 		const selectedGenres = [];
 		const selectedArtists = [];
-		 
-		// Collect selected genres
+		 	
 		document.querySelectorAll('.filter-checkbox[data-category="By genre"]:checked').forEach(checkbox => {
 			selectedGenres.push(checkbox.value);
 		});
 
-		// Collect selected artists
 		document.querySelectorAll('.filter-checkbox[data-category="By artist"]:checked').forEach(checkbox => {
 			selectedArtists.push(checkbox.value);
 		});
 
-		// Filter products based on selected genres and artists
 		allProducts.forEach(product => {
 			const productGenre = product.getAttribute('data-genre');
 			const productArtist = product.getAttribute('data-artist');
@@ -185,9 +251,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			const matchesArtist = selectedArtists.length === 0 || selectedArtists.includes(productArtist);
 
 			if (matchesGenre && matchesArtist) {
-				product.style.display = 'block';  // Show product
+				product.style.display = 'block'; 
 			} else {
-				product.style.display = 'none';  // Hide product
+				product.style.display = 'none';  
 			}
 		});
 	}

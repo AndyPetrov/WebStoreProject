@@ -45,16 +45,40 @@ INSERT INTO `genres` (`genre_name`) VALUES
 
 -- Insert Albums with Specified Genre IDs between 1 and 10
 INSERT INTO `albums` (`title`, `artist_id`, `genre_id`, `release_date`, `cover_image_url`, `price`) VALUES
-('The Dark Side of the Moon', 1, 3, '1973-03-01', 'https://imgur.com/darkside', 20.00),
-('Highway to Hell', 2, 5, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
-('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'https://imgur.com/sgtpeppers', 25.00),
-('Bad', 4, 8, '1987-08-31', 'https://imgur.com/bad', 18.00),
-('The River', 5, 4, '1980-10-17', 'https://imgur.com/theriver', 22.00),
-('Tango in the Night', 6, 7, '1987-04-13', 'https://imgur.com/tango', 20.00),
-('Innuendo', 7, 2, '1991-02-04', 'https://imgur.com/innuendo', 21.00),
-('Greatest Hits', 8, 6, '1976-02-22', 'https://imgur.com/greatesthits', 18.00),
-('Goodbye Yellow Brick Road', 9, 9, '1973-10-05', 'https://imgur.com/yellowbrickroad', 24.00),
-('Physical Graffiti', 10, 10, '1975-02-24', 'https://imgur.com/physicalgraffiti', 23.00);
+('Back in Black', 1, 5, '1980-07-25', 'https://imgur.com/backinblack', 17.00),
+('Thriller', 2, 8, '1982-11-30', 'https://imgur.com/thriller', 23.00),
+('The Wall', 3, 3, '1979-11-30', 'https://imgur.com/thewall', 22.00),
+('Let It Be', 4, 1, '1970-05-08', 'https://imgur.com/letitbe', 20.00),
+('Abbey Road', 5, 1, '1969-09-26', 'https://imgur.com/abbeyroad', 21.00),
+('Rumours', 6, 7, '1977-02-04', 'https://imgur.com/rumours', 19.00),
+('Hotel Trivago', 7, 9, '1976-12-08', 'https://imgur.com/hotelcalifornia', 24.00),
+('Born to Run', 8, 4, '1975-08-25', 'https://imgur.com/borntorun', 18.00),
+('The Joshua Tree', 9, 2, '1987-03-09', 'https://imgur.com/joshuatree', 23.00),
+('The Beatles (White Album)', 10, 1, '1968-11-22', 'https://imgur.com/whitealbum', 26.00),
+('Bridge Over Troubled Water', 1, 6, '1970-01-26', 'https://imgur.com/bridgeover', 18.00),
+('A Night at the Opera', 2, 1, '1975-11-21', 'https://imgur.com/anightattheopera', 21.00),
+('Hotel California', 3, 5, '1976-12-08', 'https://imgur.com/hotelcalifornia2', 24.00),
+('Physical Graffiti', 4, 10, '1975-02-24', 'https://imgur.com/physicalgraffiti2', 23.00),
+('Sticky Fingers', 5, 9, '1971-04-23', 'https://imgur.com/stickyfingers', 22.00),
+('Exile on Main St.', 6, 9, '1972-05-12', 'https://imgur.com/exileonmainst', 23.00),
+('The Doors', 7, 7, '1967-01-04', 'https://imgur.com/thedoors', 18.00),
+('London Calling', 8, 5, '1979-12-14', 'https://imgur.com/londoncalling', 20.00),
+('Purple Rain', 9, 2, '1984-06-25', 'https://imgur.com/purplerain', 22.00),
+('The Clash', 10, 5, '1977-04-01', 'https://imgur.com/theclash', 19.00),
+('Nevermind', 1, 3, '1991-09-24', 'https://imgur.com/nevermind', 22.00),
+('The Chronic', 2, 8, '1992-12-15', 'https://imgur.com/thechronic', 20.00),
+('The Velvet Underground & Nico', 3, 7, '1967-03-12', 'https://imgur.com/velvetunderground', 21.00),
+('Ziggy Stardust', 4, 9, '1972-04-16', 'https://imgur.com/ziggystardust', 22.00),
+('Led Zeppelin IV', 5, 10, '1971-11-08', 'https://imgur.com/ledzeppeliniv', 23.00),
+('Never Mind the Bollocks, Here’s the Sex Pistols', 6, 5, '1977-10-28', 'https://imgur.com/sexpistols', 21.00),
+('The Rise and Fall of Ziggy Stardust and the Spiders from Mars', 7, 9, '1972-06-16', 'https://imgur.com/riseandfall', 22.00),
+('The Queen is Dead', 8, 7, '1986-06-16', 'https://imgur.com/thequeenisdead', 20.00),
+('Pet Sounds', 9, 1, '1966-05-16', 'https://imgur.com/petsounds', 24.00),
+('Darkness on the Edge of Town', 10, 4, '1978-06-02', 'https://imgur.com/darknessontheedge', 23.00),
+('Innervisions', 1, 8, '1973-08-03', 'https://imgur.com/innervisions', 21.00),
+('OK Computer', 2, 3, '1997-05-21', 'https://imgur.com/okcomputer', 25.00),
+('Maggot Brain', 3, 2, '1971-07-12', 'https://imgur.com/maggotbrain', 20.00);
+
 
 
 -- Insert Tracks for Albums
