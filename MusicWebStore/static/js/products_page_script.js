@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <h3 class="product-title">${album.title}</h3>
                 <p class="product-artist">By ${album.artist}</p>
                 <p class="product-price">${album.price}$</p>
-                <button class="add-to-cart">Add to cart 🛒</button>
+                <button class="add-to-cart onclick="goToProductPage({{ album['album_id'] }})">Add to cart 🛒</button>
             `;
             
             // Add error handling for images
@@ -91,6 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
             
             container.appendChild(product);
         });
+    }
+    
+    function goToProductPage(productId) {
+        window.location.href = `/product/${productId}`;
     }
     
     checkboxes.forEach(checkbox => checkbox.addEventListener("change", fetchAlbums));

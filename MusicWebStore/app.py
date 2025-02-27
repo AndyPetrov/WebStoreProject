@@ -55,14 +55,14 @@ def register():
     surname = data.get("surname")
     email = data.get("email")
     password = generate_password_hash(data.get("password"))
+    role_id = 2
 
     cursor = mysql.connection.cursor()
 
     try:
         cursor.execute(
-            "INSERT INTO users (username, name, surname, email, password, role_id) VALUES (%s, %s, %s, %s, %s, %d)",
-            (username, name, surname, email, password, 2),
-            cursor.close() #Дава грешка. 
+            "INSERT INTO users (username, name, surname, email, password, role_id) VALUES (%s, %s, %s, %s, %s, %s)", 
+            (username, name, surname, email, password, role_id)
         )
         mysql.connection.commit()
         return jsonify({"message": "Registration successful"}), 201
@@ -71,7 +71,7 @@ def register():
 
     return render_template('login_register_page.html') #Знам че няма де се стигне дотук но нека стои за сега
 
-@app.route('/logout')
+@app.route('/logout') #Не се използва никъде. Трябва да направим бутон за logout
 def logout():
     session.pop('user_id', None)
     session.pop('username', None)
@@ -79,7 +79,22 @@ def logout():
 
 @app.route('/product/<int:product_id>')
 def product_page(product_id):
-    return render_template('product_page.html', product_id=product_id)
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT albums.album_id, albums.title, artists.name, albums.price, albums.cover_image_url
+        FROM albums 
+        JOIN artists ON albums.artist_id = artists.artist_id 
+        WHERE albums.album_id = %s
+        """
+        , (product_id,))
+    album = cursor.fetchone()
+    cursor.close()
+
+    if album:
+        return render_template("product_page.html", album=album)
+    else:
+        return "Product Not Found", 404
 
 def get_albums(filters=None, min_price=None, max_price=None, sort_by=None, order="ASC"):
     cursor = mysql.connection.cursor()
