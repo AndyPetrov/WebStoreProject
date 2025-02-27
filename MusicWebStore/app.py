@@ -1,5 +1,6 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 from flask_mysqldb import MySQL
+from werkzeug.security import generate_password_hash, check_password_hash
 import mysql
 
 app = Flask(__name__, static_folder='static')
@@ -17,9 +18,64 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
-@app.route('/login')
-def login_register():
+@app.route('/api/user_status', methods=['GET'])
+def user_status():
+    if 'user_id' in session:
+        return jsonify({'logged_in': True, 'username': session['username']})
+    return jsonify({'logged_in': False})
+
+#Работи само ако паролите в базата данни са хеширани. Трябва да оправим базата данни,
+#но дотогава просто създайвайте акаунти при тестване
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST': #Може да се избегне проверка, но нека е така, защото не пречи
+        data = request.json
+        username = data.get("username")
+        password = data.get("password") #Няма нужда да я хешираме тук
+
+        cursor = mysql.connection.cursor()
+
+        cursor.execute("SELECT user_id, username, password FROM users WHERE username = %s", (username,))
+        user = cursor.fetchone()
+
+        if user and check_password_hash(user[2], password): #Метода я хешира и сравнява двете хеширани пароли
+            session['user_id'] = user[0]
+            session['username'] = user[1]
+            return jsonify({"message": "Login successful"}), 200
+        else:
+            return jsonify({"error": "Invalid credentials"}), 401
+
     return render_template('login_register_page.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    username = data.get("username")
+    name = data.get("name")
+    surname = data.get("surname")
+    email = data.get("email")
+    password = generate_password_hash(data.get("password"))
+
+    cursor = mysql.connection.cursor()
+
+    try:
+        cursor.execute(
+            "INSERT INTO users (username, name, surname, email, password, role_id) VALUES (%s, %s, %s, %s, %s, %d)",
+            (username, name, surname, email, password, 2),
+            cursor.close() #Дава грешка. 
+        )
+        mysql.connection.commit()
+        return jsonify({"message": "Registration successful"}), 201
+    except:
+        return jsonify({"error": "Username or email already exists"}), 400
+
+    return render_template('login_register_page.html') #Знам че няма де се стигне дотук но нека стои за сега
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 @app.route('/product/<int:product_id>')
 def product_page(product_id):

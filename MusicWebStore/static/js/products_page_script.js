@@ -9,7 +9,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const minPriceInput = document.getElementById("min-price");
     const maxPriceInput = document.getElementById("max-price");
     const applyPriceButton = document.getElementById("apply-price-filter");
-    
+
+    fetch('/api/user_status')
+    .then(response => response.json())
+    .then(data => {
+        const profileButton = document.querySelector('.profile-button');
+        if (data.logged_in) {
+            profileButton.textContent = data.username;
+            profileButton.onclick = () => location.href = '/profile';
+        } else {
+            profileButton.textContent = "Login";
+            profileButton.onclick = () => location.href = '/login';
+        }
+    });
+
     function fetchAlbums() {
         let filters = [];
         checkboxes.forEach(checkbox => {
@@ -50,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Check if the path already includes '/static/'
                 imagePath = album.cover.startsWith('/static/') 
                     ? album.cover 
-                    : `/static/images/${album.cover}`;
+                    : `/static/images/album_images/${album.cover}`;
             } else {
                 // Default image if no cover is provided
                 imagePath = "/static/images/default.jpg";

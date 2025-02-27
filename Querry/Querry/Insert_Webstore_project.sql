@@ -45,16 +45,16 @@ INSERT INTO `genres` (`genre_name`) VALUES
 
 -- Insert Albums with Specified Genre IDs between 1 and 10
 INSERT INTO `albums` (`title`, `artist_id`, `genre_id`, `release_date`, `cover_image_url`, `price`) VALUES
-('The Dark Side of the Moon', 1, 3, '1973-03-01', 'static\images\Dark_Side_of_the_Moon', 20.00),
-('Highway to Hell', 2, 5, '1979-07-27', 'https://imgur.com/highwaytohell', 15.00),
-('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'https://imgur.com/sgtpeppers', 25.00),
-('Bad', 4, 8, '1987-08-31', 'https://imgur.com/bad', 18.00),
-('The River', 5, 4, '1980-10-17', 'https://imgur.com/theriver', 22.00),
-('Tango in the Night', 6, 7, '1987-04-13', 'https://imgur.com/tango', 20.00),
-('Innuendo', 7, 2, '1991-02-04', 'https://imgur.com/innuendo', 21.00),
-('Greatest Hits', 8, 6, '1976-02-22', 'https://imgur.com/greatesthits', 18.00),
-('Goodbye Yellow Brick Road', 9, 9, '1973-10-05', 'https://imgur.com/yellowbrickroad', 24.00),
-('Physical Graffiti', 10, 10, '1975-02-24', 'https://imgur.com/physicalgraffiti', 23.00);
+('The Dark Side of the Moon', 1, 3, '1973-03-01', 'static/images/album_images/The_Dark_Side_of_the_Moon', 20.00),
+('Highway to Hell', 2, 5, '1979-07-27', 'static/images/album_images/Highway_to_Hell', 15.00),
+('Sgt. Pepper\'s Lonely Hearts Club Band', 3, 1, '1967-05-26', 'static/images/album_images/Sgt_Peppers_Lonely_Hearts_Club_Band', 25.00),
+('Bad', 4, 8, '1987-08-31', 'static/images/album_images/Bad', 18.00),
+('The River', 5, 4, '1980-10-17', 'static/images/album_images/The_River', 22.00),
+('Tango in the Night', 6, 7, '1987-04-13', 'static/images/album_images/Tango_in_the_Night', 20.00),
+('Innuendo', 7, 2, '1991-02-04', 'static/images/album_images/Innuendo', 21.00),
+('Greatest Hits', 8, 6, '1976-02-22', 'static/images/album_images/Greatest_Hits', 18.00),
+('Goodbye Yellow Brick Road', 9, 9, '1973-10-05', 'static/images/album_images/Goodbye_Yellow_Brick_Road', 24.00),
+('Physical Graffiti', 10, 10, '1975-02-24', 'static/images/album_images/Physical_Graffiti', 23.00);
 
 
 -- Insert Tracks for Albums
@@ -134,11 +134,11 @@ INSERT INTO `payment_methods` (`user_id`, `method_type`, `payment_details`) VALU
 (1, 'Debit Card', 'Visa ending in 1234'),
 (2, 'PayPal', 'paypal@example.com'),
 (3, 'Google Pay', 'googlepay@example.com'),
-(4, 'On Pickup', 'Cash on delivery'),
+(4, 'Google Pay', 'googlepayuser7@example.com'),
 (5, 'Debit Card', 'MasterCard ending in 5678'),
 (6, 'PayPal', 'anotherpaypal@example.com'),
 (7, 'Google Pay', 'googlepayuser7@example.com'),
-(8, 'On Pickup', 'Cash on delivery'),
+(8, 'Google Pay', 'googlepayuser7@example.com'),
 (9, 'Debit Card', 'Visa ending in 9012'),
 (10, 'PayPal', 'user10paypal@example.com');
 
