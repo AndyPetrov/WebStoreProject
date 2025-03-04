@@ -1,3 +1,5 @@
+import { handleLoginSubmit, handleRegisterSubmit } from './major_functions.js';
+
 document.addEventListener("DOMContentLoaded", function () {
     const tabs = document.querySelectorAll(".tab-button");
     const forms = document.querySelectorAll(".auth-form");
@@ -5,27 +7,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const authContainer = document.querySelector(".auth-container");
     const closeButtons = document.querySelectorAll(".close-form");
     const loginForm = document.getElementById("login-form");
-
+    
+    // Show the auth container
     authContainer.classList.add("show");
-    document.getElementById("login-form").classList.add("show");
-
+    
+    // Make sure login tab is active initially
+    const loginTab = document.querySelector('.tab-button[data-tab="login"]');
+    if (loginTab) {
+        loginTab.classList.add("active");
+    }
+    
+    // Show login form and ensure it's not hidden
+    loginForm.classList.remove("hidden");
+    loginForm.classList.add("show");
+    
+    // Set primary button text for login
+    primaryButton.textContent = "Login";
+    
     tabs.forEach(tab => {
         tab.addEventListener("click", function () {
             tabs.forEach(t => t.classList.remove("active"));
             this.classList.add("active");
-
-            forms.forEach(form => form.classList.add("hidden"));
+            
+            forms.forEach(form => {
+                form.classList.remove("show");
+                setTimeout(() => form.classList.add("hidden"), 300);
+            });
+            
             const selectedForm = document.getElementById(this.dataset.tab + "-form");
             selectedForm.classList.remove("hidden");
-
             primaryButton.textContent = this.dataset.tab === "login" ? "Login" : "Create Account";
-
-            // Smooth show effect
             setTimeout(() => selectedForm.classList.add("show"), 50);
         });
     });
-
-    // Close form
+    
     closeButtons.forEach(button => {
         button.addEventListener("click", function () {
             authContainer.classList.remove("show");
@@ -33,52 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "/";
         });
     });
-
-    document.getElementById("login-form").addEventListener("submit", async function (e) {
-        e.preventDefault();
     
-        const username = document.querySelector("#login-form input[type='text']").value;
-        const password = document.querySelector("#login-form input[type='password']").value;
-    
-        const response = await fetch("/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "login", username, password })
-        });
-    
-        const data = await response.json();
-        if (response.ok) {
-            alert("Login successful!");
-            window.location.href = "/";
-        } else {
-            alert(data.error);
-        }
-    });
-    
-    document.getElementById("register-form").addEventListener("submit", async function (e) {
-        e.preventDefault();
-    
-        const formData = {
-            action: "register",
-            username: document.querySelector("#register-form input[placeholder='Username...']").value,
-            name: document.querySelector("#register-form input[placeholder='Name...']").value,
-            surname: document.querySelector("#register-form input[placeholder='Surname...']").value,
-            email: document.querySelector("#register-form input[placeholder='E-mail...']").value,
-            password: document.querySelector("#register-form input[placeholder='Password...']").value
-        };
-    
-        const response = await fetch("/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        });
-    
-        const data = await response.json();
-        if (response.ok) {
-            alert("Registration successful! You can now log in.");
-        } else {
-            alert(data.error);
-        }
-    });
-    
+    document.getElementById("login-form").addEventListener("submit", handleLoginSubmit);
+    document.getElementById("register-form").addEventListener("submit", handleRegisterSubmit);
 });

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <head>
 	<link rel="stylesheet" href="../static/style_products.css">
-	<script src="scripts.js"></script>	
 </head>
 
-<body class="page_body">
+<body class="page_body gradient-background">
 	<nav class="navbar">
         <div class="navbar-left">
             <div class="home-button" onclick="location.href='{{ url_for('index') }}'">
@@ -25,7 +24,7 @@
         </div>
     
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." id="search-bar">
         </div>
     
         <div class="navbar-right">
@@ -36,68 +35,71 @@
         </div>
     </nav>
 
-	<div id = "category-header" class="store-header">
-		<h2 id = "header" >Product Category Name</h2>
+	<div id="category-header" class="store-header">
+		<h2 id="header">Product Category Name</h2>
 		<div class="sort">
 			<label for="sort-select">Sort by:</label>
 			<select id="sort-select">
-				<option value="title-asc">Album Name (A-Z)</option>
-				<option value="title-desc">Album Name (Z-A)</option>
-				<option value="price-asc">Price (Low to High)</option>
-				<option value="price-desc">Price (High to Low)</option>
-				<option value="release_date-asc">Release Date (Oldest First)</option>
-				<option value="release_date-desc">Release Date (Newest First)</option>
+				<option value="albums.title-asc">Album Name (A-Z)</option>
+				<option value="albums.title-desc">Album Name (Z-A)</option>
+				<option value="artists.name-asc">Artist Name (A-Z)</option>
+				<option value="artists.name-desc">Artist Name (Z-A)</option>
+				<option value="albums.price-asc">Price (Low to High)</option>
+				<option value="albums.price-desc">Price (High to Low)</option>
+				<option value="albums.release_date-asc">Release Date (Oldest First)</option>
+				<option value="albums.release_date-desc">Release Date (Newest First)</option>
 			</select>
 		</div>		
 	</div>
 
-	<!-- Store Layout -->
 	<div class="store-container">
-		<aside id = "filter-sidebar" class="filter-sidebar">
-			<div class="filters">
-				<h3>Filter by Category</h3>
-				<label><input type="checkbox" class="filter-checkbox" value="Rock"> Rock</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Pop"> Pop</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Hip-hop"> Hip-Hop</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Jazz"> Jazz</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Rlectronic"> Electronic</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Classical"> Classical</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Metal"> Metal</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Reggae"> Reggae</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Indie"> Indie</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Blues"> Blues</label>
-				<label><input type="checkbox" class="filter-checkbox" value="Country"> Country</label>
-				<label><input type="checkbox" class="filter-checkbox" value="R&b"> R&B</label>
+		<aside id="filter-sidebar" class="filter-sidebar">
+			<div class="filter-header">Artists</div>
+			<div class="filters-container">
+				<div class="filter-search-container">
+					<input type="text" class="filter-search" id="artist-search" placeholder="Search artists...">
+				</div>
+				<div class="filters scrollable" id="artists-filters">
+					<!-- Artists will be loaded here -->
+				</div>
+			</div>
+			
+			<div class="filter-header">Genre</div>
+			<div class="filters-container">
+				<div class="filter-search-container">
+					<input type="text" class="filter-search" id="genre-search" placeholder="Search genres...">
+				</div>
+				<div class="filters scrollable" id="filters">
+					<!-- Genres will be loaded here -->
+				</div>
 			</div>
 			
 			<div class="price-filter">
 				<label for="min-price">Min Price: $</label>
+
 				<input type="number" id="min-price" min="0" value="0">
+
 				
+
 				<label for="max-price">Max Price: $</label>
+
 				<input type="number" id="max-price" min="0" value="100">
+
 				
+
 				<button id="apply-price-filter">Apply</button>
 			</div>
 		</aside>
 		
-		<div id = "product-grid" class="product-grid">
-			{% for album in albums %}
-        	<div class="product">
-            	<img src="{{ album[4] }}" alt="{{ album[1] }}" class="album-cover">
-            		<h3>{{ album[1] }}</h3>
-            		<p>Price: ${{ album[3] }}</p>
-            	
-        	</div>
-        	{% endfor %}
+		<div id="product-grid" class="product-grid">
+			<!-- Albums will be loaded here dynamically -->
 		</div>
 	</div>
 
-	<!-- Load More Button -->
 	<div class="load-more-container">
 		<button class="load-more">Load More</button>
 	</div>
 
-	<script src="{{ url_for('static', filename='js/products_page_script.js') }}"></script>
+	<script type="module" src="{{ url_for('static', filename='js/products_page_script.js') }}"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="../static/style.css">
-    <script src="scripts.js"></script>
 </head>
 
 <body class="page_body">
@@ -25,7 +24,7 @@
         </div>
     
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." id="search-bar">
         </div>
     
         <div class="navbar-right">
@@ -50,12 +49,6 @@
             </button>
         </div>
     </div>
-
-    <ul>
-        {% for album in albums %}
-            <li>{{ album[1] }} by {{ album[2] }} - ${{ album[3] }}</li>
-        {% endfor %}
-    </ul>
 
     <div class="item-menu-container">
         <button class="scroll-button scroll-left" onclick="scrollMenu(-200)">&#9665;</button>
@@ -90,5 +83,5 @@
         <button class="scroll-button scroll-right" onclick="scrollMenu(200)">&#9655;</button>
     </div>
     
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>

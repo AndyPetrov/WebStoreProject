@@ -1,15 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
+import { fetchUserStatus } from './major_functions.js';
+import { handleExistingSearchQuery, initializeSearchBar } from './minor_functions.js';
 
-    fetch('/api/user_status')
-    .then(response => response.json())
-    .then(data => {
-        const profileButton = document.querySelector('.profile-button');
-        if (data.logged_in) {
-            profileButton.textContent = data.username;
-            profileButton.onclick = () => location.href = '/profile';
-        } else {
-            profileButton.textContent = "Login";
-            profileButton.onclick = () => location.href = '/login';
-        }
-        });
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("itemMenu");
+    if (!container) {
+        console.error("Error: #itemMenu not found in DOM.");
+        return;
+    }
+
+    fetchUserStatus();
+    initializeSearchBar();
+    
+    handleExistingSearchQuery();
+});

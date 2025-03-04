@@ -1,31 +1,48 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../static/profile_page.css">
-    <script src="../scripts/profile_page_script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile_page.css') }}">
 </head>
 
-</head>
 <body class="page_body">
-
-    <!-- Navigation Bar (Already Exists) -->
+    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar-left">
-            <button class="navbar-button">Categories</button>
+            <div class="home-button" onclick="location.href='/'">
+                <span class="home-icon">🏠</span>
+                <span>Home</span>
+            </div>
+            <div class="dropdown">
+                <button class="navbar-button dropdown-btn">Categories ▼</button>
+                <div class="dropdown-menu">
+                    <a href="/products">Albums</a>
+                    <a href="#">Singles</a>
+                    <a href="#">Clothing</a>
+                    <a href="#">Shoes</a>
+                    <a href="#">Other</a>
+                </div>
+            </div>
             <button class="navbar-button">Charts</button>
         </div>
         
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." id="search-bar">
         </div>
 
         <div class="navbar-right">
-            <button class="profile-button">Profile</button>
+            <button class="profile-button">
+                Profile
+                <span>👤</span>
+            </button>
         </div>
     </nav>
 
     <!-- Profile Tabs -->
     <div class="tabs">
-        <button class="tab-button active" onclick="openTab(event, 'profile')">Your profile</button>
+        <button class="tab-button active" onclick="openTab(event, 'profile')">Your Profile</button>
         <button class="tab-button" onclick="openTab(event, 'history')">Purchase History</button>
         <button class="tab-button" onclick="openTab(event, 'settings')">Settings</button>
     </div>
@@ -36,14 +53,14 @@
     <div id="profile" class="tab-content active">
         <div class="profile-container">
             <div class="profile-info">
-                <p><strong>Name:</strong></p>
-                <p><strong>Surname:</strong></p>
-                <p><strong>Address:</strong></p>
-                <p><strong>E-mail:</strong></p>
+                <p><strong>Name:</strong> Loading...</p>
+                <p><strong>Surname:</strong> Loading...</p>
+                <p><strong>Address:</strong> Loading...</p>
+                <p><strong>E-mail:</strong> Loading...</p>
                 <button class="profile-button small">Reset password</button>
             </div>
             <div class="profile-picture">
-                <img src="../Assets/ProfilePictures/default_profile_picture.png" alt="Profile Picture">
+                <img src="{{ url_for('static', filename='images/default_profile_picture.png') }}" alt="Profile Picture">
                 <button class="profile-button small">Change Picture</button>
             </div>
         </div>
@@ -65,6 +82,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/profile_page_script.js') }}"></script>
+    <!-- Load the profile script -->
+    <script type="module" src="{{ url_for('static', filename='js/profile_page_script.js') }}"></script>
 </body>
 </html>

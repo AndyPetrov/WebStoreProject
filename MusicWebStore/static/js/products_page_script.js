@@ -1,105 +1,134 @@
+import { fetchUserStatus, fetchAlbums, updateLoadMoreButton } from './major_functions.js';
+import { handleExistingSearchQuery, displayGenres, displayArtists, initializeSearchBar, initializeFilterSearch } from './minor_functions.js';
+
 document.addEventListener("DOMContentLoaded", function () {
+    window.currentPage = 1;
+    
     const container = document.getElementById("product-grid");
     if (!container) {
         console.error("Error: #product-grid not found in DOM.");
         return;
     }
-    const checkboxes = document.querySelectorAll(".filter-checkbox");
-    const sortSelect = document.getElementById("sort-select");
-    const minPriceInput = document.getElementById("min-price");
-    const maxPriceInput = document.getElementById("max-price");
-    const applyPriceButton = document.getElementById("apply-price-filter");
 
-    fetch('/api/user_status')
-    .then(response => response.json())
-    .then(data => {
-        const profileButton = document.querySelector('.profile-button');
-        if (data.logged_in) {
-            profileButton.textContent = data.username;
-            profileButton.onclick = () => location.href = '/profile';
-        } else {
-            profileButton.textContent = "Login";
-            profileButton.onclick = () => location.href = '/login';
-        }
-    });
-
-    function fetchAlbums() {
-        let filters = [];
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                filters.push(`filter=${checkbox.value}`);
+    fetchUserStatus();
+    initializeSearchBar();
+    initializeFilterSearch();
+    initializeFilterEvents();
+    initializeLoadMoreButton();
+    
+    fetchGenres();
+    fetchArtists();
+    handleExistingSearchQuery();
+    
+    window.fetchAlbums = fetchAlbums;
+    
+    function initializeFilterEvents() {
+        const filterHeaders = document.querySelectorAll('.filter-header');
+        filterHeaders.forEach(header => {
+            const filtersContainer = header.nextElementSibling;
+            const filters = filtersContainer.querySelector('.filters');
+            
+            header.classList.remove('expanded');
+            if (filters) {
+                filters.classList.remove('expanded');
             }
+            
+            header.addEventListener('click', function() {
+                this.classList.toggle('expanded');
+                
+                const filtersContainer = this.nextElementSibling;
+                
+                const filters = filtersContainer.querySelector('.filters');
+                
+                if (filters) {
+                    filters.classList.toggle('expanded');
+                }
+            });
         });
-        let minPrice = minPriceInput.value;
-        let maxPrice = maxPriceInput.value;
-        let sortValue = sortSelect.value;
-        let queryString = `?sort=${sortValue}&min_price=${minPrice}`;
-        if (maxPrice) queryString += `&max_price=${maxPrice}`;
-        if (filters.length) queryString += `&${filters.join("&")}`;
         
-        fetch(`/api/albums${queryString}`)
+        const sortSelect = document.getElementById("sort-select");
+        if (sortSelect) {
+            sortSelect.addEventListener("change", function() {
+                window.currentPage = 1; 
+                fetchAlbums(1, false);
+            });
+        }
+        
+        const applyPriceButton = document.getElementById("apply-price-filter");
+        if (applyPriceButton) {
+            applyPriceButton.addEventListener("click", function() {
+                window.currentPage = 1;
+                fetchAlbums(1, false);
+            });
+        }
+        
+        const header = document.getElementById("header");
+        if (header) {
+            header.textContent = "Albums";
+        }
+    }
+    
+    function initializeLoadMoreButton() {
+        const loadMoreButton = document.querySelector('.load-more');
+        if (loadMoreButton) {
+            loadMoreButton.addEventListener('click', function() {
+                const nextPage = (window.currentPage || 1) + 1;
+                fetchAlbums(nextPage, true);
+            });
+        }
+    }
+    
+    function fetchGenres() {
+        fetch(`/api/genres`)
             .then(response => {
                 if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text); });
+                    throw new Error("Failed to fetch genres");
                 }
                 return response.json();
             })
-            .then(albums => displayAlbums(albums))
-            .catch(error => console.error("Error fetching albums:", error));
+            .then(genres => {
+                displayGenres(genres);
+                initializeGenreCheckboxEvents();
+            })
+            .catch(error => console.error("Error fetching genres:", error));
     }
     
-    function displayAlbums(albums) {
-        const container = document.getElementById("product-grid");
-        container.innerHTML = "";
-        
-        albums.forEach(album => {
-            let product = document.createElement("div");
-            product.classList.add("product");
-            
-            // Construct the image path - adjust this based on your API response
-            // Check if the cover path exists in the album object
-            let imagePath = "";
-            if (album.cover) {
-                // Check if the path already includes '/static/'
-                imagePath = album.cover.startsWith('/static/') 
-                    ? album.cover 
-                    : `/static/images/album_images/${album.cover}`;
-            } else {
-                // Default image if no cover is provided
-                imagePath = "/static/images/default.jpg";
-            }
-            
-            product.innerHTML = `
-                <img src="${imagePath}" alt="${album.title}" class="album-cover">
-                <h3 class="product-title">${album.title}</h3>
-                <p class="product-artist">By ${album.artist}</p>
-                <p class="product-price">${album.price}$</p>
-                <button class="add-to-cart onclick="goToProductPage({{ album['album_id'] }})">Add to cart 🛒</button>
-            `;
-            
-            // Add error handling for images
-            const img = product.querySelector('img');
-            img.onerror = function() {
-                this.src = '/static/images/default_album_cover.png';
-                this.alt = 'Image not available';
-            };
-            
-            const addToCartBtn = product.querySelector('.add-to-cart');
-            addToCartBtn.addEventListener('click', function() {
-                console.log(`Added ${album.title} to cart`);
+    function fetchArtists() {
+        fetch(`/api/artists`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch artists");
+                }
+                return response.json();
+            })
+            .then(artists => {
+                displayArtists(artists);
+                initializeArtistCheckboxEvents();
+            })
+            .catch(error => console.error("Error fetching artists:", error));
+    }
+    
+    function initializeGenreCheckboxEvents() {
+        setTimeout(() => {
+            const checkboxes = document.querySelectorAll(".filter-checkbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function() {
+                    window.currentPage = 1; 
+                    fetchAlbums(1, false);
+                });
             });
-            
-            container.appendChild(product);
-        });
+        }, 100);
     }
     
-    function goToProductPage(productId) {
-        window.location.href = `/product/${productId}`;
+    function initializeArtistCheckboxEvents() {
+        setTimeout(() => {
+            const checkboxes = document.querySelectorAll(".artist-checkbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", function() {
+                    window.currentPage = 1; 
+                    fetchAlbums(1, false);
+                });
+            });
+        }, 100);
     }
-    
-    checkboxes.forEach(checkbox => checkbox.addEventListener("change", fetchAlbums));
-    sortSelect.addEventListener("change", fetchAlbums);
-    applyPriceButton.addEventListener("click", fetchAlbums);
-    
-    fetchAlbums();
 });

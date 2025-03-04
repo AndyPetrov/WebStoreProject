@@ -5,7 +5,7 @@
 
 <body class="page_body">
 
-    <div class="auth-container hidden">
+    <div class="auth-container">
         <div class="auth-tabs">
             <button class="tab-button active" data-tab="login">Login</button>
             <button class="tab-button" data-tab="register">Register</button>
@@ -69,5 +69,5 @@
         </div>
     </div>    
     
-    <script src="../static/js/login_register_script.js"></script>
+	<script type="module" src="{{ url_for('static', filename='js/login_register_script.js') }}"></script>
 </body>
