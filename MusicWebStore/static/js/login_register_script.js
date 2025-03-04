@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             forms.forEach(form => {
                 form.classList.remove("show");
-                setTimeout(() => form.classList.add("hidden"), 300);
+                form.classList.add("hidden");
             });
             
             const selectedForm = document.getElementById(this.dataset.tab + "-form");

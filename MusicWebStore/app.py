@@ -176,7 +176,8 @@ def albums():
         params = []
         
         if search_term:
-            conditions.append("LOWER(albums.title) LIKE LOWER(%s)")
+            conditions.append("LOWER(albums.title) LIKE LOWER(%s) OR LOWER(artists.name) LIKE LOWER(%s)")
+            params.append(f"%{search_term}%")
             params.append(f"%{search_term}%")
         
         if min_price is not None:
