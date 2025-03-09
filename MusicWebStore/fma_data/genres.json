@@ -1,0 +1,82 @@
+{
+    "1": {
+        "genre_id": 1,
+        "name": "Blues"
+    },
+    "2": {
+        "genre_id": 2,
+        "name": "Trance"
+    },
+    "3": {
+        "genre_id": 3,
+        "name": "Jazz"
+    },
+    "4": {
+        "genre_id": 4,
+        "name": "Metal"
+    },
+    "5": {
+        "genre_id": 5,
+        "name": "Techno"
+    },
+    "6": {
+        "genre_id": 6,
+        "name": "Indie"
+    },
+    "7": {
+        "genre_id": 7,
+        "name": "Pop"
+    },
+    "8": {
+        "genre_id": 8,
+        "name": "Folk"
+    },
+    "9": {
+        "genre_id": 9,
+        "name": "Reggae"
+    },
+    "10": {
+        "genre_id": 10,
+        "name": "Disco"
+    },
+    "11": {
+        "genre_id": 11,
+        "name": "Electronic"
+    },
+    "12": {
+        "genre_id": 12,
+        "name": "Soul"
+    },
+    "13": {
+        "genre_id": 13,
+        "name": "Country"
+    },
+    "14": {
+        "genre_id": 14,
+        "name": "Alternative"
+    },
+    "15": {
+        "genre_id": 15,
+        "name": "Hip-Hop"
+    },
+    "16": {
+        "genre_id": 16,
+        "name": "Rock"
+    },
+    "17": {
+        "genre_id": 17,
+        "name": "Punk"
+    },
+    "18": {
+        "genre_id": 18,
+        "name": "House"
+    },
+    "19": {
+        "genre_id": 19,
+        "name": "Classical"
+    },
+    "20": {
+        "genre_id": 20,
+        "name": "R&B"
+    }
+}

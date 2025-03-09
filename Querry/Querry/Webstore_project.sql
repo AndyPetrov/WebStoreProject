@@ -25,10 +25,9 @@ CREATE TABLE `users` (
 
 -- Artists table (renaming authors to better represent music industry terms)
 CREATE TABLE `artists` (
-    `artist_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `artist_id` VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL UNIQUE,
     `biography` TEXT,
-    `date_of_birth` DATE NOT NULL,
     `profile_picture_url` VARCHAR(255) NOT NULL DEFAULT 'https://imgur.com/a/el5idNE'
 );
 
@@ -40,13 +39,16 @@ CREATE TABLE `genres` (
 
 -- Albums table with additional fields like `release_date`
 CREATE TABLE `albums` (
-    `album_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `album_id` VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
     `title` VARCHAR(255) NOT NULL,
-    `artist_id` INT NOT NULL,
-    `genre_id` INT NOT NULL,
-    `release_date` DATE,
+    `artist_id` VARCHAR(255) NOT NULL,
     `cover_image_url` VARCHAR(255) DEFAULT 'https://imgur.com/a/el5idNE',
     `price` DOUBLE(10,2) NOT NULL DEFAULT 0.00,
+    `genre_id` INT NOT NULL,
+    `billboard` VARCHAR(255),
+    `popularity` INT,
+    `total_trakcs` INT,
+    `youtube_url` TEXT,
     FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -55,8 +57,8 @@ CREATE TABLE `albums` (
 CREATE TABLE `tracks` (
     `track_id` INT AUTO_INCREMENT PRIMARY KEY,
     `title` VARCHAR(255) NOT NULL,
-    `album_id` INT NOT NULL,
-    `artist_id` INT NOT NULL,
+    `album_id` VARCHAR(255) NOT NULL,
+    `artist_id` VARCHAR(255) NOT NULL,
     `duration_seconds` INT NOT NULL,  -- storing duration in seconds
     `track_number` INT NOT NULL,
     `audio_url` VARCHAR(255) NOT NULL,  -- URL to audio file
