@@ -7,7 +7,7 @@ app.secret_key = 'your secret key'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = '' 
 app.config['MYSQL_DB'] = 'webstore'
 
 mysql = MySQL(app)
@@ -95,14 +95,17 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-@app.route('/product/<int:product_id>')
-def product_page(product_id):
+@app.route('/api/product/<int:product_id>', methods=['GET'])
+def api_product_details(product_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
         """
-        SELECT albums.album_id, albums.title, artists.name, albums.price, albums.cover_image_url
+        SELECT albums.album_id, albums.title, albums.artist_id, artists.name, 
+               albums.price, albums.cover_image_url, albums.release_date, 
+               genres.genre_name, albums.description
         FROM albums 
         JOIN artists ON albums.artist_id = artists.artist_id 
+        JOIN genres ON albums.genre_id = genres.genre_id
         WHERE albums.album_id = %s
         """, (product_id,)
     )
@@ -110,9 +113,47 @@ def product_page(product_id):
     cursor.close()
     
     if album:
-        return render_template("product_page.html", album=album)
+        album_data = {
+            "album_id": album[0],
+            "title": album[1],
+            "artist_id": album[2],
+            "artist": album[3],
+            "price": float(album[4]),
+            "cover_image_url": album[5],
+            "release_date": str(album[6]),
+            "genre": album[7],
+            "description": album[8]
+        }
+        return jsonify(album_data)
     else:
-        return "Product Not Found", 404
+        return jsonify({"error": "Product not found"}), 404
+    
+@app.route('/api/album/<int:album_id>/tracks', methods=['GET'])
+def api_album_tracks(album_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT track_number, title, duration_seconds
+        FROM tracks
+        WHERE album_id = %s
+        """, (album_id,)
+    )
+    tracks = cursor.fetchall()
+    cursor.close()
+    
+    tracks_list = [
+        {
+            "pos": track[0],
+            "title": track[1],
+            "duration": track[2]
+        } for track in tracks
+    ]
+    
+    return jsonify(tracks_list)
+    
+@app.route('/product/<int:album_id>')
+def product_page(album_id):
+    return render_template('product_page.html')
 
 @app.route('/api/genres', methods=['GET'])
 def genres():

@@ -3,20 +3,31 @@
     <link rel="stylesheet" href="../static/style_product.css">
 </head>
 
-<body class="page_body">
+<body class="page_body" id="pageBody">
     <nav class="navbar">
         <div class="navbar-left">
+            <div class="home-button" onclick="location.href='{{ url_for('index') }}'">
+                <span class="home-icon">🏠</span>
+                <span>Home</span>
+            </div>
             <div class="dropdown">
                 <button class="navbar-button dropdown-btn">Categories ▼</button>
                 <div class="dropdown-menu">
-                    <a href="#">Albums</a>
+                    <a href="{{ url_for('products_page') }}">Albums</a>
                     <a href="#">Singles</a>
                     <a href="#">Clothing</a>
                     <a href="#">Shoes</a>
                     <a href="#">Other</a>
                 </div>
             </div>
-            <button class="navbar-button">Charts</button>
+            <div class="dropdown">
+				<button class="navbar-button dropdown-btn">Charts ▼</button>
+				<div class="dropdown-menu">
+					<a href="#">Albums</a>
+					<a href="#">Tracks</a>
+					<a href="#">Artists</a>
+				</div>
+			</div>
         </div>
 
         <div class="search-bar">
@@ -31,32 +42,76 @@
         </div>
     </nav>
 
-    <section class="album-banner">
+    <section class="album-banner" id="album-banner">
         <div class="album-banner-content">
             <img src="../Assets/AlbumImages/My_beautiful_dark_twisted_fantasy.jpg" alt="Album Cover" class="album-banner-image">
-            <h1 class="album-banner-title">My Beautiful Dark Twisted Fantasy</h1>
-            <p class="album-banner-artist">By Kanye West</p>
-            <p class="album-banner-price">24.99$</p>
-            <button class="album-banner-button">
-                Add to cart <span class="cart-icon">🛒</span>
-            </button>
+            <div class="album-info">
+                <h1 class="album-banner-title">My Beautiful Dark Twisted Fantasy</h1>
+                <p class="album-banner-artist">By Kanye West</p>
+                <p class="album-banner-price">24.99$</p>
+                <div class="album-button-group">
+                    <button class="album-banner-button">
+                        Add to cart <span class="cart-icon">🛒</span>
+                    </button>
+                    <button class="add-to-favorites">
+                        <span class="heart-icon">❤️</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Description Section -->
-    <section class="album-description">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis 
-            molestie mi, eu placerat erat. Quisque volutpat finibus nisl vitae ultricies. 
-            Sed at scelerisque nulla. Integer mi turpis, sodales ac placerat quis, 
-            varius eget augue. Aliquam feugiat dui erat, id euismod augue ullamcorper quis. 
-            Cras dictum erat et est mollis interdum. Proin euismod mauris vulputate quam 
-            luctus efficitur. Suspendisse varius dolor diam. Duis sem nisl, porta in nulla 
-            vitae, imperdiet aliquet risus. Interdum et malesuada fames ac ante ipsum primis 
-            in faucibus. Orci varius natoque penatibus et magnis dis parturient montes, 
-            nascetur ridiculus mus.
-        </p>
-    </section>
+    <div class="album-details">
+        <!-- Description Section -->
+        <section class="album-description">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis 
+                molestie mi, eu placerat erat. Quisque volutpat finibus nisl vitae ultricies. 
+                Sed at scelerisque nulla. Integer mi turpis, sodales ac placerat quis, 
+                varius eget augue. Aliquam feugiat dui erat, id euismod augue ullamcorper quis. 
+                Cras dictum erat et est mollis interdum. Proin euismod mauris vulputate quam 
+                luctus efficitur.
+            </p>
+        </section>
+    
+        <!-- Tracklist Section -->
+        <section class="album-tracklist">
+            <h2 class="tracklist-title">Tracklist</h2>
+            <ul class="track-list" id="tracklist">
+                <li class="track-item">
+                    <span class="track-number">1</span>
+                    <span class="track-name">Dark Fantasy</span>
+                    <span class="track-duration">4:40</span>
+                    <button class="track-play">▶️</button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">2</span>
+                    <span class="track-name">Gorgeous</span>
+                    <span class="track-duration">5:57</span>
+                    <button class="track-play">▶️</button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">3</span>
+                    <span class="track-name">Power</span>
+                    <span class="track-duration">4:52</span>
+                    <button class="track-play">▶️</button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">4</span>
+                    <span class="track-name">All Of The Lights (Interlude)</span>
+                    <span class="track-duration">1:02</span>
+                    <button class="track-play">▶️</button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">5</span>
+                    <span class="track-name">All Of The Lights</span>
+                    <span class="track-duration">4:59</span>
+                    <button class="track-play">▶️</button>
+                </li>
+            </ul>
+        </section>
+    </div>
 
     <div class="item-menu-container">
         <button class="scroll-button scroll-left" onclick="scrollMenu(-200)">&#9665;</button>
@@ -86,7 +141,7 @@
                 <div class="item-price">21.99$</div>
                 <button class="add-to-cart">Add to Cart</button>
             </div>
-        </div>5
+        </div>
     
         <button class="scroll-button scroll-right" onclick="scrollMenu(200)">&#9655;</button>
     </div>

@@ -1,5 +1,5 @@
 import { fetchUserStatus, fetchAlbums, updateLoadMoreButton } from './major_functions.js';
-import { handleExistingSearchQuery, displayGenres, displayArtists, initializeSearchBar, initializeFilterSearch } from './minor_functions.js';
+import { handleExistingSearchQuery, displayGenres, displayArtists, initializeSearchBar, initializeFilterSearch, initNavbarTransform } from './minor_functions.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     window.currentPage = 1;
@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchGenres();
     fetchArtists();
     handleExistingSearchQuery();
-    
+    const navbarController = initNavbarTransform();
+    navbarController.update();
     window.fetchAlbums = fetchAlbums;
     
     function initializeFilterEvents() {
