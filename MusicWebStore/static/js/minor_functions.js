@@ -167,3 +167,158 @@ export function displayArtists(artists) {
         artistContainer.appendChild(artistLabel);
     });
 }
+
+export function initNavbarTransform(options = {}) {
+    // Default options
+    const settings = {
+      navbarSelector: '.navbar',
+      sidebarSelector: '.filter-sidebar',
+      scrollThreshold: 50,
+      mobileBreakpoint: 768,
+      navbarOffset: 10,
+      transitionDuration: 300,
+      ...options
+    };
+  
+    // Get DOM elements
+    const navbar = document.querySelector(settings.navbarSelector);
+    const filterSidebar = document.querySelector(settings.sidebarSelector);
+    
+    // Variable to store the sidebar top position
+    let filterSidebarTop = null;
+    let lastScrolledState = false;
+    
+    // Create collapse toggle button if it doesn't exist
+    function ensureCollapseButton() {
+      if (!navbar.querySelector('.navbar-collapse-toggle')) {
+        const collapseBtn = document.createElement('div');
+        collapseBtn.className = 'navbar-collapse-toggle';
+        collapseBtn.innerHTML = '<span></span>';
+        collapseBtn.addEventListener('click', function() {
+          navbar.classList.toggle('expanded');
+          // Update filter sidebar position when expanded/collapsed
+          if (filterSidebar) {
+            if (navbar.classList.contains('expanded')) {
+              // Get expanded navbar height
+              const navbarHeight = navbar.offsetHeight;
+              filterSidebar.style.top = `${navbarHeight + 10}px`;
+            } else {
+              // Reset to collapsed height
+              const navbarHeight = navbar.querySelector('.navbar-minimal').offsetHeight;
+              filterSidebar.style.top = `${navbarHeight + 10}px`;
+            }
+          }
+        });
+        navbar.appendChild(collapseBtn);
+      }
+    }
+    
+    // Ensure minimal row exists for collapsed state
+    function ensureMinimalRow() {
+      if (!navbar.querySelector('.navbar-minimal')) {
+        const minimalRow = document.createElement('div');
+        minimalRow.className = 'navbar-minimal';
+
+        const homeIcon = document.createElement('div');
+    homeIcon.className = 'home-icon';
+    homeIcon.innerHTML = '🏠';
+    homeIcon.addEventListener('click', function() {
+      window.location.href = '/';
+    });
+    minimalRow.appendChild(homeIcon);
+        
+        // Clone search bar for minimal row
+        const searchBar = navbar.querySelector('.search-bar');
+        const searchInput = searchBar.querySelector(".search-bar input")
+          if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                const searchTerm = searchInput.value.trim();
+                window.location.href = `/products?query=${encodeURIComponent(searchTerm)}`;
+              }
+            });
+          }
+        
+        
+        navbar.insertBefore(minimalRow, navbar.firstChild);
+      }
+    }
+    
+    /**
+     * Updates the navbar position and state based on scroll position
+     */
+    function updateNavbarPosition() {
+      if (!navbar) return;
+      
+      // Calculate filter sidebar top position if needed
+      if (filterSidebar && !filterSidebarTop) {
+        filterSidebarTop = filterSidebar.getBoundingClientRect().top + window.scrollY - settings.navbarOffset;
+      }
+      
+      // Don't transform navbar on smaller screens
+      if (window.innerWidth <= settings.mobileBreakpoint) {
+        navbar.classList.remove('scrolled');
+        navbar.classList.remove('expanded');
+        if (filterSidebar) {
+          filterSidebar.style.top = '';
+        }
+        return;
+      }
+      
+      const scrollPosition = window.scrollY;
+      const shouldBeScrolled = scrollPosition > settings.scrollThreshold;
+      
+      // Only update if state has changed
+      if (shouldBeScrolled !== lastScrolledState) {
+        lastScrolledState = shouldBeScrolled;
+        
+        if (shouldBeScrolled) {
+          // Ensure we have the collapse button and minimal row for scrolled state
+          ensureCollapseButton();
+          ensureMinimalRow();
+          
+          // Add scrolled class
+          navbar.classList.add('scrolled');
+          navbar.classList.remove('expanded'); // Start in collapsed state
+          
+          // Adjust filter sidebar top position
+          if (filterSidebar) {
+            // Calculate the minimal row height
+            const navbarHeight = navbar.querySelector('.navbar-minimal').offsetHeight;
+            filterSidebar.style.top = `${navbarHeight + 60}px`;
+          }
+        } else {
+          // Reset to normal state
+          navbar.classList.remove('scrolled');
+          navbar.classList.remove('expanded');
+          
+          // Reset filter sidebar position
+          if (filterSidebar) {
+            filterSidebar.style.top = '';
+          }
+        }
+      }
+    }
+    
+    // Initial update
+    updateNavbarPosition();
+    
+    // Set up event listeners
+    window.addEventListener('scroll', updateNavbarPosition);
+    window.addEventListener('resize', function() {
+      filterSidebarTop = null;
+      updateNavbarPosition();
+    });
+    
+    // Return public methods
+    return {
+      update: updateNavbarPosition,
+      reset: function() {
+        filterSidebarTop = null;
+        lastScrolledState = false;
+        updateNavbarPosition();
+      }
+    };
+  }
+  

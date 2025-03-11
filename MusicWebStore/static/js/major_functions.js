@@ -192,7 +192,11 @@ export function displayAlbums(albums, append = false) {
           <h3 class="product-title">${album.title}</h3>
           <p class="product-artist">By ${album.artist}</p>
           <p class="product-price">$${album.price.toFixed(2)}</p>
-          <button class="add-to-cart" data-product-id="${album.id}">Add to cart 🛒</button>
+          <div class="product-buttons">
+            <button class="view-button" data-product-id="${album.id}">View</button>
+            <button class="preview-button" data-product-id="${album.id}">📝</button>
+            <button class="favorite-button" data-product-id="${album.id}">❤️</button>
+          </div>
       `;
       
       // Image error handling
@@ -202,12 +206,12 @@ export function displayAlbums(albums, append = false) {
           this.alt = 'Image not available';
       };
       
-      const addButton = product.querySelector('.add-to-cart');
-      if (addButton) {
-          addButton.addEventListener('click', (e) => {
+      const viewButton = product.querySelector('.view-button');
+      if (viewButton) {
+          viewButton.addEventListener('click', (e) => {
               e.stopPropagation();
-              // Here you would normally add logic to add to cart
-              goToProductPage(album.id);
+              const productId = viewButton.getAttribute('data-product-id');
+              window.location.href = `/product/${productId}`;
           });
       }
       
@@ -246,3 +250,113 @@ export function fetchSubscriptionStatus() {
           return {};
       });
 }
+
+export async function fetchSimilarAlbums(referenceId, factor = 'artist', limit = 4) {
+    try {
+      // Validate factor
+      const validFactors = ['artist', 'genre', 'decade', 'price_range'];
+      if (!validFactors.includes(factor)) {
+        throw new Error(`Invalid factor. Choose from: ${validFactors.join(', ')}`);
+      }
+  
+      // First, fetch the reference album details to get comparison data
+      const referenceResponse = await fetch(`/api/product/${referenceId}`);
+      if (!referenceResponse.ok) {
+        throw new Error('Failed to fetch reference album details');
+      }
+      const referenceAlbum = await referenceResponse.json();
+  
+      // Construct query parameters based on the factor
+      const queryParams = new URLSearchParams({
+        per_page: limit
+      });
+  
+      switch (factor) {
+        case 'artist':
+            queryParams.append('artist', referenceAlbum.artist_id);
+            break;
+        case 'genre':
+            queryParams.append('filter', referenceAlbum.genre);
+            break;
+        case 'decade':
+            const decade = Math.floor(parseInt(referenceAlbum.release_date.split('-')[0]) / 10) * 10;
+            queryParams.append('min_year', decade);
+            queryParams.append('max_year', decade + 9);
+            break;
+        case 'price_range':
+            const minPrice = Math.max(0, referenceAlbum.price - 5);
+            const maxPrice = referenceAlbum.price + 5;
+            queryParams.append('min_price', minPrice);
+            queryParams.append('max_price', maxPrice);
+            break;
+      }
+  
+      // Exclude the reference album itself
+      queryParams.append('exclude', referenceId);
+  
+      const response = await fetch(`/api/albums?${queryParams}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch similar albums');
+      }
+      
+      const data = await response.json();
+      return data.albums || [];
+    } catch (error) {
+      console.error('Error fetching similar albums:', error);
+      return [];
+    }
+  }
+  
+  export async function displaySimilarAlbums(referenceId, containerId, factor = 'artist', limit = 4) {
+    try {
+      const similarAlbums = await fetchSimilarAlbums(referenceId, factor, limit);
+      const container = document.getElementById(containerId);
+      
+      if (!container) {
+        console.error(`Container with ID ${containerId} not found`);
+        return;
+      }
+      
+      // Clear previous content
+      container.innerHTML = '';
+      
+      // If no similar albums found, optionally show a message
+      if (similarAlbums.length === 0) {
+        container.innerHTML = '<p>No similar albums found.</p>';
+        return;
+      }
+      
+      // Create album cards
+      similarAlbums.forEach(album => {
+        const albumCard = document.createElement('div');
+        albumCard.classList.add('similar-album');
+        
+        let imagePath = album.cover
+          ? (album.cover.startsWith('/static/') ? album.cover : `/static/images/album_images/${album.cover}`)
+          : "/static/images/default_album_cover.png";
+        
+        albumCard.innerHTML = `
+          <img src="${imagePath}" alt="${album.title}" class="album-cover">
+          <h4>${album.title}</h4>
+          <p>By ${album.artist}</p>
+          <p>$${album.price.toFixed(2)}</p>
+          <div class="product-buttons">
+            <button class="view-button" data-product-id="${album.id}">View</button>
+            <button class="preview-button" data-product-id="${album.id}">📝</button>
+            <button class="favorite-button" data-product-id="${album.id}">❤️</button>
+          </div>
+        `;
+        
+        // Add click event to view album
+        const viewButton = albumCard.querySelector('.view-album');
+        viewButton.addEventListener('click', () => {
+          window.location.href = `/product/${album.id}`;
+        });
+        
+        container.appendChild(albumCard);
+      });
+    } catch (error) {
+      console.error('Error displaying similar albums:', error);
+    }
+  }
