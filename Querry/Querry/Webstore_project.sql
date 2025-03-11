@@ -47,7 +47,7 @@ CREATE TABLE `albums` (
     `genre_id` INT NOT NULL,
     `billboard` VARCHAR(255),
     `popularity` INT,
-    `total_trakcs` INT,
+    `total_tracks` INT,
     `youtube_url` TEXT,
     FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE
