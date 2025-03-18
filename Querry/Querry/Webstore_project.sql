@@ -1,140 +1,124 @@
 CREATE DATABASE `webstore`;
 USE `webstore`;
-
--- Roles table for User Types (admin, customer, etc.)
-CREATE TABLE `roles` (
-    `role_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `role_name` ENUM('admin', 'customer', 'premium') NOT NULL UNIQUE
-);
-
--- Users table remains mostly the same, but you can modify roles
+music_videos
+-- Users table
 CREATE TABLE `users` (
-    `user_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `user_id` INT AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(255) NOT NULL UNIQUE,
     `name` VARCHAR(255) NOT NULL,
     `surname` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `profile_picture_url` VARCHAR(255) DEFAULT 'https://imgur.com/a/el5idNE',
-    `role_id` INT NOT NULL DEFAULT 2,
-    `subscription_id` INT DEFAULT 1,  -- to link to subscriptions for premium users
-    FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE
+    `subscription_type` ENUM('free', 'premium') NOT NULL DEFAULT 'free',
+    FOREIGN KEY (`role_id`) REFERENCES `roles`(`role_id`) ON DELETE RESTRICT
 );
 
--- Artists table (renaming authors to better represent music industry terms)
-CREATE TABLE `artists` (
-    `artist_id` VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
-    `name` VARCHAR(255) NOT NULL UNIQUE,
-    `biography` TEXT,
-    `profile_picture_url` VARCHAR(255) NOT NULL DEFAULT 'https://imgur.com/a/el5idNE'
-);
-
--- Genres table for music categorization
+-- Genres
 CREATE TABLE `genres` (
     `genre_id` INT AUTO_INCREMENT PRIMARY KEY,
     `genre_name` VARCHAR(255) NOT NULL UNIQUE
 );
 
--- Albums table with additional fields like `release_date`
+-- Artists (iTunes ID as primary key)
+CREATE TABLE `artists` (
+    `artist_id` BIGINT PRIMARY KEY,
+    `name` VARCHAR(255) NOT NULL,
+    `genre_id` INT,
+    `biography` TEXT,
+    `artist_image_url` VARCHAR(255),
+    FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE SET NULL
+);
+
+-- Albums (iTunes ID as primary key)
 CREATE TABLE `albums` (
-    `album_id` VARCHAR(255) NOT NULL UNIQUE PRIMARY KEY,
+    `album_id` BIGINT PRIMARY KEY,
     `title` VARCHAR(255) NOT NULL,
-    `artist_id` VARCHAR(255) NOT NULL,
-    `cover_image_url` VARCHAR(255) DEFAULT 'https://imgur.com/a/el5idNE',
+    `artist_id` BIGINT NOT NULL,
+    `genre_id` INT,
+    `release_date` DATE,
+    `description` TEXT,
+    `cover_image_url` VARCHAR(255),
     `price` DOUBLE(10,2) NOT NULL DEFAULT 0.00,
-    `genre_id` INT NOT NULL,
-    `billboard` VARCHAR(255),
-    `popularity` INT,
-    `total_tracks` INT,
-    `youtube_url` TEXT,
-    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    `explicit` BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ,
+    FOREIGN KEY (`genre_id`) REFERENCES `genres`(`genre_id`) ON DELETE SET NULL
 );
 
--- Tracks (songs) table with more detailed data for Spotify-like functionality
+-- Tracks (iTunes ID as primary key)
 CREATE TABLE `tracks` (
-    `track_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `track_id` BIGINT PRIMARY KEY,
     `title` VARCHAR(255) NOT NULL,
-    `album_id` VARCHAR(255) NOT NULL,
-    `artist_id` VARCHAR(255) NOT NULL,
-    `duration_seconds` INT NOT NULL,  -- storing duration in seconds
+    `album_id` BIGINT,
+    `artist_id` BIGINT NOT NULL,
+    `duration_milliseconds` INT NOT NULL,
     `track_number` INT NOT NULL,
-    `audio_url` VARCHAR(255) NOT NULL,  -- URL to audio file
-    FOREIGN KEY (`album_id`) REFERENCES `albums`(`album_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    `preview_url` VARCHAR(255),
+    `price` DOUBLE(10,2) DEFAULT 0.99,
+    `explicit` BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (`album_id`) REFERENCES `albums`(`album_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE 
 );
 
--- Playlist table for users to manage their personal playlists
+-- Featured Artists on Tracks
+CREATE TABLE `featured_artists` (
+    `track_id` BIGINT NOT NULL,
+    `artist_id` BIGINT NOT NULL,
+    PRIMARY KEY (`track_id`, `artist_id`),
+    FOREIGN KEY (`track_id`) REFERENCES `tracks`(`track_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE
+);
+
+-- Music Videos (iTunes video ID as primary key)
+CREATE TABLE `music_videos` (
+    `video_id` BIGINT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `artist_id` BIGINT NOT NULL,
+    `album_id` BIGINT,
+    `preview_url` VARCHAR(255) NOT NULL,
+    `release_date` DATE,
+    `duration_milliseconds` INT,
+    `price` DOUBLE(10,2) DEFAULT 1.99,
+    FOREIGN KEY (`artist_id`) REFERENCES `artists`(`artist_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`album_id`) REFERENCES `albums`(`album_id`) ON DELETE SET NULL
+);
+
+
+-- Playlists
 CREATE TABLE `playlists` (
     `playlist_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
     `playlist_name` VARCHAR(255) NOT NULL,
     `description` TEXT,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 );
 
--- Playlist songs table to associate tracks with playlists
+-- Playlist Tracks
 CREATE TABLE `playlist_tracks` (
     `playlist_id` INT NOT NULL,
-    `track_id` INT NOT NULL,
+    `track_id` BIGINT NOT NULL,
     PRIMARY KEY (`playlist_id`, `track_id`),
     FOREIGN KEY (`playlist_id`) REFERENCES `playlists`(`playlist_id`) ON DELETE CASCADE,
     FOREIGN KEY (`track_id`) REFERENCES `tracks`(`track_id`) ON DELETE CASCADE
 );
 
--- User streaming history (for playback tracking)
+-- Streaming History
 CREATE TABLE `streaming_history` (
     `history_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
-    `track_id` INT NOT NULL,
-    `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`track_id`) REFERENCES `tracks`(`track_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    `track_id` BIGINT NOT NULL,
+    `stream_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`track_id`) REFERENCES `tracks`(`track_id`) ON DELETE CASCADE
 );
 
-CREATE TABLE `subscription_types` (
-    `subscription_type_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `type_name` VARCHAR(255) NOT NULL UNIQUE,  -- e.g. 'free', 'basic', 'premium'
-    `price` DOUBLE(10,2) NOT NULL,  -- Price for the subscription type
-    `description` TEXT  -- Optional description for each subscription type
-);
-
--- Modify the subscriptions table to reference the new subscription_types table
-CREATE TABLE `subscriptions` (
-    `subscription_id` INT AUTO_INCREMENT PRIMARY KEY,
+-- Purchase History
+CREATE TABLE `purchase_history` (
+    `purchase_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` INT NOT NULL,
-    `subscription_type_id` INT NOT NULL,  -- Now referencing subscription_types
-    `start_date` DATE NOT NULL,
-    `end_date` DATE,
-    `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`subscription_type_id`) REFERENCES `subscription_types`(`subscription_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    `item_type` ENUM('track', 'album') NOT NULL,
+    `item_id` BIGINT NOT NULL,
+    `price_paid` DOUBLE(10,2) NOT NULL,
+    `purchase_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 );
-
-
--- Payment methods for users
-CREATE TABLE `payment_methods` (
-    `payment_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `user_id` INT NOT NULL,
-    `method_type` ENUM('Debit Card', 'PayPal', 'Google Pay', 'On Pickup') NOT NULL,
-    `payment_details` TEXT NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
--- Reviews for products (like albums or individual tracks)
-CREATE TABLE `reviews` (
-    `review_id` INT AUTO_INCREMENT PRIMARY KEY,
-    `user_id` INT NOT NULL,
-    `product_id` INT NOT NULL,  -- can represent albums or tracks
-    `rating` INT NOT NULL CHECK (`rating` BETWEEN 1 AND 5),
-    `review_text` TEXT,
-    `review_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
-	 ON DELETE CASCADE 
-	 ON UPDATE CASCADE
-);
-
--- Insert roles for admin and users
-INSERT INTO `roles` (`role_name`) VALUES ('admin'), ('customer'), ('premium');
