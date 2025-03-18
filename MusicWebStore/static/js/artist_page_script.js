@@ -1,5 +1,5 @@
 import { fetchUserStatus, fetchSimilarAlbums } from './major_functions.js';
-import { handleExistingSearchQuery, initializeSearchBar } from './minor_functions.js';
+import { displayArtists, handleExistingSearchQuery, initializeSearchBar } from './minor_functions.js';
 import { initMusicPlayer } from './music_ctrl_functions.js';
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,9 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const playerIframe = document.getElementById('persistent-player');
       
-    // Initial setup to make sure iframe has the right dimensions
     playerIframe.style.width = '100%';
-    playerIframe.style.height = '80px'; // Initial minimized height
+    playerIframe.style.height = '80px'; 
     playerIframe.style.position = 'fixed';
     playerIframe.style.bottom = '0';
     playerIframe.style.left = '0';
@@ -33,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
         
         switch (message.action) {
             case 'resizePlayer':
-                // Resize the iframe based on the player mode
                 if (message.mode === 'expanded') {
                     playerIframe.style.height = message.height;
                     // Optional: Add overlay or adjust page content
@@ -78,21 +76,20 @@ document.addEventListener("DOMContentLoaded", function () {
     
     async function fetchAlbumDetails(productId) {
         try {
-            const response = await fetch(`/api/product/${productId}`);
+            const response = await fetch(`/api/artist/${productId}`);
             
             if (!response.ok) {
                 throw new Error('Failed to fetch album details');
             }
             
-            const album = await response.json();
+            const artist = await response.json();
 
-            populateProductPage(album);
+            populateArtistPage(album);
             
             let imagePath = album.cover_image_url;
             
-            // Fetch and display similar albums
-            const similarAlbums = await fetchSimilarAlbums(album.album_id, 'artist', 4);
-            displaySimilarAlbums(similarAlbums, 'itemMenu');
+            // const similarAlbums = await fetchSimilarArtists(album.album_id, 'artist', 4);
+            // displaySimilarArtists(similarAlbums, 'itemMenu');
         } catch (error) {
             console.error('Error fetching product details:', error);
         }
@@ -148,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   
   // Get the scrim element
-  const scrim = pageBackground.querySelector('.album-scrim');
+  const scrim = pageBackground.querySelector('.artist-scrim');
   
   // Set the background image
   scrim.style.backgroundImage = `url('${imagePath}')`;

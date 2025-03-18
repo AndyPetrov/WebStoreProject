@@ -2,6 +2,7 @@ import json
 from flask import Flask
 from flask_mysqldb import MySQL
 import logging
+import os
 
 app = Flask(__name__, static_folder='static')
 
@@ -99,9 +100,13 @@ def insert_albums(albums, artists_dict):
 # Main function
 if __name__ == "__main__":
     # Load JSON files
-    albums_data = load_json('fma_data/filtered_albums.json')
-    artists_data = load_json('fma_data/filtered_artists.json')
-    genres_data = load_json('fma_data/genres.json')
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    albums_path = os.path.join(SITE_ROOT, "fma_data", "filtered_albums.json")
+    artists_path = os.path.join(SITE_ROOT, "fma_data", "filtered_artists.json")
+    genres_path = os.path.join(SITE_ROOT, "fma_data", "genres.json")
+    albums_data = load_json(albums_path)
+    artists_data = load_json(artists_path)
+    genres_data = load_json(genres_path)
 
     # Create a dictionary of artists for easy lookup by artist_id
     artists_dict = {artist["artist_id"]: artist for artist in artists_data.values()}

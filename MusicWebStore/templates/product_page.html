@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="../static/style_product.css">
+    <link href="{{ url_for('static', filename='remixicon.css') }}" rel="stylesheet">
 </head>
 
 <body class="page_body" id="pageBody">
     <nav class="navbar">
         <div class="navbar-left">
             <div class="home-button" onclick="location.href='{{ url_for('index') }}'">
-                <span class="home-icon">🏠</span>
+                <i class="ri-home-line"></i>
                 <span>Home</span>
             </div>
             <div class="dropdown">
-                <button class="navbar-button dropdown-btn">Categories ▼</button>
+                <button class="navbar-button dropdown-btn">Categories <i class="ri-arrow-down-s-line"></i></button>
                 <div class="dropdown-menu">
                     <a href="{{ url_for('products_page') }}">Albums</a>
                     <a href="#">Singles</a>
@@ -21,7 +22,7 @@
                 </div>
             </div>
             <div class="dropdown">
-				<button class="navbar-button dropdown-btn">Charts ▼</button>
+				<button class="navbar-button dropdown-btn">Charts <i class="ri-arrow-down-s-line"></i></button>
 				<div class="dropdown-menu">
 					<a href="#">Albums</a>
 					<a href="#">Tracks</a>
@@ -32,12 +33,13 @@
 
         <div class="search-bar">
             <input type="text" placeholder="Search...">
+            <i class="ri-search-line"></i>
         </div>
 
         <div class="navbar-right">
             <button class="profile-button">
                 Profile
-                <span>👤</span>
+                <i class="ri-user-line"></i>
             </button>
         </div>
     </nav>
@@ -51,10 +53,10 @@
                 <p class="album-banner-price">24.99$</p>
                 <div class="album-button-group">
                     <button class="album-banner-button">
-                        Add to cart <span class="cart-icon">🛒</span>
+                        Add to cart <i class="ri-shopping-cart-line"></i>
                     </button>
-                    <button class="add-to-favorites">
-                        <span class="heart-icon">❤️</span>
+                    <button class="add-to-favorites-banner">
+                        <i class="ri-heart-line"></i>
                     </button>
                 </div>
             </div>
@@ -83,38 +85,38 @@
                     <span class="track-number">1</span>
                     <span class="track-name">Dark Fantasy</span>
                     <span class="track-duration">4:40</span>
-                    <button class="track-play">▶️</button>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
                 </li>
                 <li class="track-item">
                     <span class="track-number">2</span>
                     <span class="track-name">Gorgeous</span>
                     <span class="track-duration">5:57</span>
-                    <button class="track-play">▶️</button>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
                 </li>
                 <li class="track-item">
                     <span class="track-number">3</span>
                     <span class="track-name">Power</span>
                     <span class="track-duration">4:52</span>
-                    <button class="track-play">▶️</button>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
                 </li>
                 <li class="track-item">
                     <span class="track-number">4</span>
                     <span class="track-name">All Of The Lights (Interlude)</span>
                     <span class="track-duration">1:02</span>
-                    <button class="track-play">▶️</button>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
                 </li>
                 <li class="track-item">
                     <span class="track-number">5</span>
                     <span class="track-name">All Of The Lights</span>
                     <span class="track-duration">4:59</span>
-                    <button class="track-play">▶️</button>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
                 </li>
             </ul>
         </section>
     </div>
 
     <div class="item-menu-container">
-        <button class="scroll-button scroll-left" onclick="scrollMenu(-200)">&#9665;</button>
+        <button class="scroll-button scroll-left" onclick="scrollMenu(-200)"><i class="ri-arrow-left-s-line"></i></button>
     
         <div class="item-menu" id="itemMenu">
             <div class="item">
@@ -143,34 +145,10 @@
             </div>
         </div>
     
-        <button class="scroll-button scroll-right" onclick="scrollMenu(200)">&#9655;</button>
+        <button class="scroll-button scroll-right" onclick="scrollMenu(200)"><i class="ri-arrow-right-s-line"></i></button>
     </div>
 
-    <div class="music-controller">
-        <div class="music-controller-left">
-            <img class="controller-album-art" src="../Assets/AlbumImages/Yeezus.jpg" alt="Album Art">
-            <div class="music-controller-info">
-                <span class="controller-song">Nambo</span>
-                <span class="controller-artist">Obman</span>
-            </div>
-        </div>
-    
-        <div class="music-controller-center">
-            <div class="controller-buttons">
-                <button class="controller-button controller-prev">⏮</button>
-                <button class="controller-button controller-play">▶️</button>
-                <button class="controller-button controller-next">⏭</button>
-            </div>
-            <div class="controller-progress-back">
-                <div class="controller-progress"></div>
-            </div>
-        </div>
-    
-        <div class="music-controller-right">
-            <input type="range" class="controller-volume" min="0" max="100" value="50">
-            <button class="controller-button controller-settings">⚙</button>
-        </div>
-    </div>    
+    <iframe id="persistent-player" src="/player" frameborder="0"></iframe>
     
     <script type="module" src="{{ url_for('static', filename='js/product_page_script.js') }}"></script>
 </body>

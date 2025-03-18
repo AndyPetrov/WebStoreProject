@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="../static/player.css">
+    <script src="https://unpkg.com/phosphor-icons"></script>
+</head>
+<body>
+    <!-- Minimized Music Controller (will always remain visible) -->
+    <div class="music-controller-base music-controller-minimized">
+        <div class="mini-progress-container">
+            <div class="mini-progress-bar" style="width: 45%;"></div>
+        </div>
+        
+        <div class="mini-track-container">
+            <img src="images/album-art.jpg" alt="Album Art" class="mini-album-art">
+            <div class="mini-track-info">
+                <div class="mini-track-title">Get Down (Instrumental)</div>
+                <div class="mini-track-artist">Craig Mack</div>
+            </div>
+        </div>
+        
+        <div class="mini-controls">
+            <button class="mini-control-button">
+                <i class="ph ph-shuffle"></i>
+            </button>
+            <button class="mini-control-button">
+                <i class="ph ph-skip-back"></i>
+            </button>
+            <button class="mini-control-button mini-play-button">
+                <i class="ph ph-play"></i>
+            </button>
+            <button class="mini-control-button">
+                <i class="ph ph-skip-forward"></i>
+            </button>
+            <button class="mini-control-button">
+                <i class="ph ph-repeat"></i>
+            </button>
+
+        </div>
+        
+        <div class="mini-time-display">
+            <span class="mini-current-time">2:33</span>
+            <span class="mini-time-separator">/</span>
+            <span class="mini-total-time">3:52</span>
+            <div class="mini-additional-controls">
+                <button class="mini-volume-button">
+                    <i class="ph ph-speaker-high"></i>
+                </button>
+                <button class="mini-queue-button">
+                    <i class="ph ph-queue"></i>
+                </button>
+                <button class="mini-expand-button">
+                    <i class="ph ph-caret-up"></i>
+                    'Expand'
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Expanded Music Controller (will appear above mini controller) -->
+    <div class="music-controller-expanded">
+        <div class="expanded-header">
+            <div class="expanded-title">Now Playing</div>
+            <button class="expanded-close-button">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+        
+        <div class="expanded-tabs">
+            <div class="expanded-tab active">Now Playing</div>
+            <div class="expanded-tab">Lyrics</div>
+            <div class="expanded-tab">Recommended</div>
+            <div class="expanded-tab">From DJ Tools: Classic Rap Instrumentals</div>
+        </div>
+        
+        <div class="expanded-content">
+            <!-- Now Playing Tab Content -->
+            <div class="now-playing-content">
+                <div class="tab-placeholder">
+                    <h2>Now Playing Tab</h2>
+                    <p>This is the Now Playing tab content.</p>
+                </div>
+            </div>
+            
+            <!-- Lyrics Tab Content (hidden by default) -->
+            <div class="lyrics-content" style="display: none;">
+                <div class="tab-placeholder">
+                    <h2>Lyrics Tab</h2>
+                    <p>This is the Lyrics tab content.</p>
+                </div>
+            </div>
+            
+            <!-- Recommended Tracks Tab Content (hidden by default) -->
+            <div class="recommended-content" style="display: none;">
+                <div class="tab-placeholder">
+                    <h2>Recommended Tab</h2>
+                    <p>This is the Recommended tab content.</p>
+                </div>
+            </div>
+            
+            <!-- Album Tracks Tab Content (hidden by default) -->
+            <div class="album-tracks-content" style="display: none;">
+                <div class="tab-placeholder">
+                    <h2>Album Tab</h2>
+                    <p>This is the Album tab content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="audio-player" preload="metadata"></audio>
+    <script type="module" src="{{ url_for('static', filename='js/player.js') }}"></script>
+</body>
+</html>

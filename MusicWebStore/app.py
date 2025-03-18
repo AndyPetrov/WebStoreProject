@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template, session, redirect, url_for
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import json
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'your secret key'
@@ -95,14 +97,14 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
-@app.route('/api/product/<int:product_id>', methods=['GET'])
+@app.route('/api/product/<product_id>', methods=['GET'])
 def api_product_details(product_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
         """
         SELECT albums.album_id, albums.title, albums.artist_id, artists.name, 
-               albums.price, albums.cover_image_url, albums.release_date, 
-               genres.genre_name, albums.description
+               albums.price, albums.cover_image_url,
+               genres.genre_name
         FROM albums 
         JOIN artists ON albums.artist_id = artists.artist_id 
         JOIN genres ON albums.genre_id = genres.genre_id
@@ -120,20 +122,20 @@ def api_product_details(product_id):
             "artist": album[3],
             "price": float(album[4]),
             "cover_image_url": album[5],
-            "release_date": str(album[6]),
-            "genre": album[7],
-            "description": album[8]
+            #"release_date": str(album[6]),
+            "genre": album[6],
+            # "description": album[8]
         }
         return jsonify(album_data)
     else:
         return jsonify({"error": "Product not found"}), 404
     
-@app.route('/api/album/<int:album_id>/tracks', methods=['GET'])
+@app.route('/api/album/<album_id>/tracks', methods=['GET'])
 def api_album_tracks(album_id):
     cursor = mysql.connection.cursor()
     cursor.execute(
         """
-        SELECT track_number, title, duration_seconds
+        SELECT track_number, title, duration_milliseconds, preview_url
         FROM tracks
         WHERE album_id = %s
         """, (album_id,)
@@ -145,13 +147,14 @@ def api_album_tracks(album_id):
         {
             "pos": track[0],
             "title": track[1],
-            "duration": track[2]
+            "duration": format_duration(track[2]),
+            "preview_url": track[3] 
         } for track in tracks
     ]
     
     return jsonify(tracks_list)
     
-@app.route('/product/<int:album_id>')
+@app.route('/product/<album_id>')
 def product_page(album_id):
     return render_template('product_page.html')
 
@@ -237,7 +240,7 @@ def albums():
         if artists:
             placeholders = ', '.join(['%s'] * len(artists))
             conditions.append(f"artists.artist_id IN ({placeholders})")
-            params.extend([int(artist_id) for artist_id in artists])
+            params.extend([artist_id for artist_id in artists])
         
         where_clause = " WHERE " + " AND ".join(conditions) if conditions else ""
         
@@ -288,6 +291,336 @@ def albums():
 def products_page():
     return render_template('products_page.html')
 
+@app.route('/artists')
+def artists_page():
+    return render_template('artists_page.html')
+
+@app.route('/api/artists_data', methods=['GET'])
+def artists_data():
+    try:
+        search_term = request.args.get('query', '').strip()
+        page = request.args.get('page', type=int, default=1)
+        per_page = request.args.get('per_page', type=int, default=30)
+        offset = (page - 1) * per_page
+
+        filters = request.args.getlist('filter')  # Genre filters
+
+        sort_param = request.args.get('sort', 'artists.name-asc')
+        if '-' in sort_param:
+            sort_by, order = sort_param.split('-')
+            order = "ASC" if order.lower() == "asc" else "DESC"
+        else:
+            sort_by = "artists.name"
+            order = "ASC"
+
+        # Validate sort field
+        valid_sort_fields = ["artists.name"]
+        if sort_by not in valid_sort_fields:
+            sort_by = "artists.name"
+
+        # Base FROM and JOINs
+        base_query = """
+            FROM artists
+            LEFT JOIN albums ON artists.artist_id = albums.artist_id
+            LEFT JOIN genres ON albums.genre_id = genres.genre_id
+        """
+
+        # Conditions and parameters
+        conditions = []
+        params = []
+
+        if search_term:
+            conditions.append("LOWER(artists.name) LIKE LOWER(%s)")
+            params.append(f"%{search_term}%")
+
+        if filters:
+            placeholders = ', '.join(['%s'] * len(filters))
+            conditions.append(f"LOWER(genres.genre_name) IN ({placeholders})")
+            params.extend([filter_value.lower() for filter_value in filters])
+
+        # WHERE clause
+        where_clause = " WHERE " + " AND ".join(conditions) if conditions else ""
+
+        # GROUP BY to prevent duplicates
+        group_by = " GROUP BY artists.artist_id "
+
+        # Total count query (without LEFT JOIN on albums/genres to prevent overcounting)
+        count_query = f"SELECT COUNT(DISTINCT artists.artist_id) FROM artists {where_clause}"
+
+        # Data query with DISTINCT and pagination
+        data_query = f"""
+            SELECT 
+                artists.artist_id,
+                artists.name,
+                MAX(genres.genre_name) AS genre_name,  -- Picking one genre if multiple
+                artists.artist_image_url,
+                COUNT(DISTINCT albums.album_id) AS album_count
+            {base_query}
+            {where_clause}
+            {group_by}
+            ORDER BY {sort_by} {order}
+            LIMIT %s OFFSET %s
+        """
+
+        # DB connection & execution
+        cursor = mysql.connection.cursor()
+
+        # Execute count query
+        cursor.execute(count_query, params)
+        total_count = cursor.fetchone()[0]
+
+        # Execute data query with pagination
+        data_params = params + [per_page, offset]
+        cursor.execute(data_query, data_params)
+        artists = cursor.fetchall()
+        cursor.close()
+
+        # Formatting results
+        artists_list = [
+            {
+                "artist_id": artist[0],
+                "name": artist[1],
+                "genre": artist[2],
+                "artist_url": artist[3],
+                "album_count": artist[4]
+            } for artist in artists
+        ]
+
+        # Return JSON response with pagination
+        return jsonify({
+            "artists": artists_list,
+            "page": page,
+            "per_page": per_page,
+            "total": total_count,
+            "has_more": total_count > (page * per_page)
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/artist/<artist_id>', methods=['GET'])
+def artist_page(artist_id):
+    return render_template('artist_page.html')
+
+@app.route('/api/artist/<artist_id>', methods=['GET'])
+def api_artist_details(artist_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT artist.artist_id, artist.name, genre.genre_name, artist.artist_image_url
+        FROM artists
+        Join genres ON artists.genre_id = genres.genre_id
+        WHERE artist_id = %s
+        """, (artist_id,)
+    )
+    artist = cursor.fetchone()
+    cursor.close()
+    
+    if artist:
+        artist_data = {
+            "artist_id": artist[0],
+            "name": artist[1],
+            "genre": artist[2],
+            "artist_image_url": artist[2]
+        }
+        return jsonify(artist_data)
+    else:
+        return jsonify({"error": "Artist not found"}), 404
+    
+@app.route('/tracks_page')
+def tracks_page():
+    return render_template('tracks_page.html')
+
+@app.route('/api/tracks', methods=['GET'])
+def tracks():
+    try:
+        search_term = request.args.get('query', '').strip()
+        
+        page = request.args.get('page', type=int, default=1)
+        per_page = request.args.get('per_page', type=int, default=30)
+        offset = (page - 1) * per_page
+        
+        filters = request.args.getlist('filter')
+        artists = request.args.getlist('artist')
+        min_price = request.args.get('min_price', type=float, default=0)
+        max_price = request.args.get('max_price', type=float)
+        
+        sort_param = request.args.get('sort', 'tracks.title-asc')
+        if '-' in sort_param:
+            sort_by, order = sort_param.split('-')
+            order = "ASC" if order.lower() == "asc" else "DESC"
+        else:
+            sort_by = "tracks.title"
+            order = "ASC"
+        
+        valid_sort_fields = ["tracks.title", "tracks.price", "artists.name", "tracks.track_number"]
+        if sort_by not in valid_sort_fields:
+            sort_by = "tracks.title"
+        
+        base_query = """
+            FROM tracks 
+            JOIN artists ON tracks.artist_id = artists.artist_id
+            JOIN albums ON tracks.album_id = albums.album_id
+            JOIN genres ON albums.genre_id = genres.genre_id
+        """
+        
+        conditions = []
+        params = []
+        
+        if search_term:
+            conditions.append("(LOWER(tracks.title) LIKE LOWER(%s) OR LOWER(artists.name) LIKE LOWER(%s) OR LOWER(albums.title) LIKE LOWER(%s))")
+            params.extend([f"%{search_term}%", f"%{search_term}%", f"%{search_term}%"])
+        
+        if min_price is not None:
+            conditions.append("tracks.price >= %s")
+            params.append(min_price)
+        
+        if max_price is not None:
+            conditions.append("tracks.price <= %s")
+            params.append(max_price)
+        
+        if filters:
+            placeholders = ', '.join(['%s'] * len(filters))
+            conditions.append(f"LOWER(genres.genre_name) IN ({placeholders})")
+            params.extend([filter_value.lower() for filter_value in filters])
+        
+        if artists:
+            placeholders = ', '.join(['%s'] * len(artists))
+            conditions.append(f"artists.artist_id IN ({placeholders})")
+            params.extend([artist_id for artist_id in artists])
+        
+        where_clause = " WHERE " + " AND ".join(conditions) if conditions else ""
+        
+        # Get total count for pagination
+        count_query = "SELECT COUNT(DISTINCT tracks.track_id) " + base_query + where_clause
+        
+        # Build data query with pagination
+        data_query = """
+            SELECT tracks.track_id, tracks.title, artists.name, albums.title, 
+                   tracks.price, albums.cover_image_url, tracks.preview_url,
+                   tracks.duration_milliseconds, tracks.track_number
+        """ + base_query + where_clause + f" ORDER BY {sort_by} {order} LIMIT %s OFFSET %s"
+        
+        # Execute count query
+        cursor = mysql.connection.cursor()
+        cursor.execute(count_query, params)
+        total_count = cursor.fetchone()[0]
+        
+        # Execute data query with pagination
+        data_params = params.copy()
+        data_params.extend([per_page, offset])
+        cursor.execute(data_query, data_params)
+        tracks = cursor.fetchall()
+        cursor.close()
+        
+        # Format results
+        tracks_list = [
+            {
+                "id": track[0],
+                "title": track[1],
+                "artist": track[2],
+                "album": track[3],
+                "price": float(track[4]),
+                "album_cover": track[5],
+                "preview_url": track[6],
+                "duration": format_duration(track[7]),
+                "track_number": track[8]
+            } for track in tracks
+        ]
+        
+        # Return data with pagination metadata
+        return jsonify({
+            "tracks": tracks_list,
+            "page": page,
+            "per_page": per_page,
+            "total": total_count,
+            "has_more": total_count > (page * per_page)
+        })
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def format_duration(milliseconds):
+    """Format milliseconds to minutes:seconds format"""
+    seconds = milliseconds // 1000
+    minutes = seconds // 60
+    remaining_seconds = seconds % 60
+    return f"{minutes}:{remaining_seconds:02d}"
+
+@app.route('/track/<track_id>')
+def track_page(track_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT tracks.track_id, tracks.title, tracks.artist_id, artists.name, 
+               tracks.album_id, albums.title, tracks.price, albums.cover_image_url,
+               tracks.duration_milliseconds, tracks.track_number, tracks.preview_url,
+               genres.genre_name
+        FROM tracks 
+        JOIN artists ON tracks.artist_id = artists.artist_id 
+        JOIN albums ON tracks.album_id = albums.album_id
+        JOIN genres ON albums.genre_id = genres.genre_id
+        WHERE tracks.track_id = %s
+        """, (track_id,)
+    )
+    track = cursor.fetchone()
+    cursor.close()
+
+    track_data = {
+        "track_id": track[0],
+        "title": track[1],
+        "artist_id": track[2],
+        "artist": track[3],
+        "album_id": track[4],
+        "album": track[5],
+        "price": float(track[6]),
+        "cover_image_url": track[7],
+        "duration": format_duration(track[8]),
+        "track_number": track[9],
+        "preview_url": track[10],
+        "genre": track[11]
+    }
+
+    return render_template('track_page.html')
+
+@app.route('/api/track/<track_id>', methods=['GET'])
+def api_track_details(track_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT tracks.track_id, tracks.title, tracks.artist_id, artists.name, 
+               tracks.album_id, albums.title, tracks.price, albums.cover_image_url,
+               tracks.duration_milliseconds, tracks.track_number, tracks.preview_url,
+               genres.genre_name
+        FROM tracks 
+        JOIN artists ON tracks.artist_id = artists.artist_id 
+        JOIN albums ON tracks.album_id = albums.album_id
+        JOIN genres ON albums.genre_id = genres.genre_id
+        WHERE tracks.track_id = %s
+        """, (track_id,)
+    )
+    track = cursor.fetchone()
+    cursor.close()
+    
+    if track:        
+        track_data = {
+            "track_id": track[0],
+            "title": track[1],
+            "artist_id": track[2],
+            "artist": track[3],
+            "album_id": track[4],
+            "album": track[5],
+            "price": float(track[6]),
+            "cover_image_url": track[7],
+            "duration": format_duration(track[8]),
+            "track_number": track[9],
+            "preview_url": track[10],
+            "genre": track[11]
+        }
+        return jsonify(track_data)
+    else:
+        return jsonify({"error": "Track not found"}), 404
+
 @app.route('/profile')
 def profile_page():
     if 'user_id' not in session:
@@ -329,6 +662,29 @@ def user_profile():
     except Exception as e:
         print(f"Error in user_profile: {str(e)}")
         return jsonify({"error": "Database error occurred"}), 500
+    
+@app.route('/player')
+def player():
+    return render_template('player.html')
+
+@app.route('/api/get_track', methods=['GET'])
+def get_track():
+    track_id = request.args.get('track_id')
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        """
+        SELECT preview_url
+        FROM tracks
+        WHERE track_id = %s
+        """, (track_id,)
+    )
+    track = cursor.fetchone()
+    cursor.close()
+    
+    if track:
+        return jsonify({"preview_url": track[0]})
+    else:
+        return jsonify({"error": "Track not found"}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)

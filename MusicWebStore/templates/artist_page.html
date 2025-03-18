@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="../static/artist_page.css">
+    <link href="{{ url_for('static', filename='remixicon.css') }}" rel="stylesheet">
+</head>
+
+<body class="page_body" id="pageBody">
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="home-button" onclick="location.href='{{ url_for('index') }}'">
+                <i class="ri-home-line"></i>
+                <span>Home</span>
+            </div>
+            <div class="dropdown">
+                <button class="navbar-button dropdown-btn">Categories <i class="ri-arrow-down-s-line"></i></button>
+                <div class="dropdown-menu">
+                    <a href="{{ url_for('products_page') }}">Albums</a>
+                    <a href="#">Singles</a>
+                    <a href="#">Clothing</a>
+                    <a href="#">Shoes</a>
+                    <a href="#">Other</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="navbar-button dropdown-btn">Charts <i class="ri-arrow-down-s-line"></i></button>
+                <div class="dropdown-menu">
+                    <a href="#">Albums</a>
+                    <a href="#">Tracks</a>
+                    <a href="#">Artists</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <i class="ri-search-line"></i>
+        </div>
+
+        <div class="navbar-right">
+            <button class="profile-button">
+                Profile
+                <i class="ri-user-line"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="artist-banner" id="artist-banner">
+        <div class="artist-banner-content">
+            <img src="../Assets/ArtistImages/kanye_west.jpg" alt="Artist Photo" class="artist-banner-image">
+            <div class="artist-info">
+                <h1 class="artist-banner-title">Kanye West</h1>
+                <p class="artist-banner-genre">Hip-Hop / Rap</p>
+                <div class="artist-stats">
+                    <div class="stat">
+                        <span class="stat-number">10</span>
+                        <span class="stat-label">Albums</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">5.6M</span>
+                        <span class="stat-label">Monthly Listeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">32.1M</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                </div>
+                <div class="artist-button-group">
+                    <button class="artist-banner-button">
+                        Follow <i class="ri-user-add-line"></i>
+                    </button>
+                    <button class="share-artist-banner">
+                        <i class="ri-share-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio Section -->
+    <div class="artist-details">
+        <section class="artist-bio">
+            <h2 class="bio-title">Biography</h2>
+            <p>
+                Kanye West is an American rapper, record producer, and fashion designer who has become 
+                one of the most influential and controversial artists of his generation. Born in Atlanta 
+                and raised in Chicago, West first gained recognition as a producer for Roc-A-Fella Records 
+                in the early 2000s. He has since released multiple critically acclaimed albums, won numerous 
+                Grammy Awards, and expanded his creative vision into fashion, architecture, and other fields.
+            </p>
+        </section>
+    
+        <!-- Popular Tracks Section -->
+        <section class="artist-popular-tracks">
+            <h2 class="tracks-title">Popular Tracks</h2>
+            <ul class="track-list" id="popularTracks">
+                <li class="track-item">
+                    <span class="track-number">1</span>
+                    <span class="track-name">Stronger</span>
+                    <span class="track-album">Graduation</span>
+                    <span class="track-duration">5:12</span>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">2</span>
+                    <span class="track-name">Power</span>
+                    <span class="track-album">My Beautiful Dark Twisted Fantasy</span>
+                    <span class="track-duration">4:52</span>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">3</span>
+                    <span class="track-name">Gold Digger</span>
+                    <span class="track-album">Late Registration</span>
+                    <span class="track-duration">3:28</span>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">4</span>
+                    <span class="track-name">Heartless</span>
+                    <span class="track-album">808s & Heartbreak</span>
+                    <span class="track-duration">3:30</span>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
+                </li>
+                <li class="track-item">
+                    <span class="track-number">5</span>
+                    <span class="track-name">Bound 2</span>
+                    <span class="track-album">Yeezus</span>
+                    <span class="track-duration">3:49</span>
+                    <button class="track-play"><i class="ri-play-line"></i></button>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <h2 class="discography-title">Discography</h2>
+    <div class="item-menu-container">
+        <button class="scroll-button scroll-left" onclick="scrollMenu(-200)"><i class="ri-arrow-left-s-line"></i></button>
+    
+        <div class="item-menu" id="itemMenu">
+            <div class="item">
+                <img src="../Assets/AlbumImages/My_beautiful_dark_twisted_fantasy.jpg" alt="Album Cover">
+                <div class="item-title">My Beautiful Dark Twisted Fantasy</div>
+                <div class="item-year">2010</div>
+                <button class="view-album">View Album</button>
+            </div>
+            <div class="item">
+                <img src="../Assets/AlbumImages/The_life_of_pablo_alternate.jpg" alt="Album Cover">
+                <div class="item-title">The Life of Pablo</div>
+                <div class="item-year">2016</div>
+                <button class="view-album">View Album</button>
+            </div>
+            <div class="item">
+                <img src="../Assets/AlbumImages/Donda.jpg" alt="Album Cover">
+                <div class="item-title">Donda</div>
+                <div class="item-year">2021</div>
+                <button class="view-album">View Album</button>
+            </div>
+            <div class="item">
+                <img src="../Assets/AlbumImages/Graduation.jpg" alt="Album Cover">
+                <div class="item-title">Graduation</div>
+                <div class="item-year">2007</div>
+                <button class="view-album">View Album</button>
+            </div>
+            <div class="item">
+                <img src="../Assets/AlbumImages/Yeezus.jpg" alt="Album Cover">
+                <div class="item-title">Yeezus</div>
+                <div class="item-year">2013</div>
+                <button class="view-album">View Album</button>
+            </div>
+        </div>
+    
+        <button class="scroll-button scroll-right" onclick="scrollMenu(200)"><i class="ri-arrow-right-s-line"></i></button>
+    </div>
+
+    <!-- Upcoming Events Section -->
+    <section class="upcoming-events">
+        <h2 class="events-title">Upcoming Events</h2>
+        <div class="events-container">
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="event-month">MAR</span>
+                    <span class="event-day">24</span>
+                </div>
+                <div class="event-details">
+                    <h3 class="event-title">Live in New York</h3>
+                    <p class="event-venue">Madison Square Garden</p>
+                </div>
+                <button class="event-tickets">Buy Tickets</button>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="event-month">APR</span>
+                    <span class="event-day">12</span>
+                </div>
+                <div class="event-details">
+                    <h3 class="event-title">Chicago Homecoming</h3>
+                    <p class="event-venue">United Center</p>
+                </div>
+                <button class="event-tickets">Buy Tickets</button>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="event-month">APR</span>
+                    <span class="event-day">29</span>
+                </div>
+                <div class="event-details">
+                    <h3 class="event-title">Festival Appearance</h3>
+                    <p class="event-venue">Coachella Valley</p>
+                </div>
+                <button class="event-tickets">Sold Out</button>
+            </div>
+        </div>
+    </section>
+
+    <iframe id="persistent-player" src="/player" frameborder="0"></iframe>
+    
+    <script type="module" src="{{ url_for('static', filename='js/artist_page_script.js') }}"></script>
+</body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<link rel="stylesheet" href="../static/style_products.css">
+	<link rel="stylesheet" href="../static/artists_page.css">
 </head>
 
 <body class="page_body gradient-background">
@@ -45,14 +45,8 @@
 		<div class="sort">
 			<label for="sort-select">Sort by:</label>
 			<select id="sort-select">
-				<option value="albums.title-asc">Album Name (A-Z)</option>
-				<option value="albums.title-desc">Album Name (Z-A)</option>
 				<option value="artists.name-asc">Artist Name (A-Z)</option>
 				<option value="artists.name-desc">Artist Name (Z-A)</option>
-				<option value="albums.price-asc">Price (Low to High)</option>
-				<option value="albums.price-desc">Price (High to Low)</option>
-				<option value="albums.release_date-asc">Release Date (Oldest First)</option>
-				<option value="albums.release_date-desc">Release Date (Newest First)</option>
 			</select>
 		</div>		
 	</div>
@@ -105,6 +99,6 @@
 		<button class="load-more">Load More</button>
 	</div>
 
-	<script type="module" src="{{ url_for('static', filename='js/products_page_script.js') }}"></script>
+	<script type="module" src="{{ url_for('static', filename='js/artists_page_script.js') }}"></script>
 </body>
 </html>

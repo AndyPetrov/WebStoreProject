@@ -183,9 +183,11 @@ export function displayAlbums(albums, append = false) {
       let product = document.createElement("div");
       product.classList.add("product");
       
-      let imagePath = album.cover
-          ? (album.cover.startsWith('/static/') ? album.cover : `/static/images/album_images/${album.cover}`)
-          : "/static/images/default_album_cover.png";
+      // let imagePath = album.cover
+      //     ? (album.cover.startsWith('/static/') ? album.cover : `/static/images/album_images/${album.cover}`)
+      //     : "/static/images/default_album_cover.png";
+
+      let imagePath = album.cover;
       
       product.innerHTML = `
           <img src="${imagePath}" alt="${album.title}" class="album-cover">
@@ -251,7 +253,7 @@ export function fetchSubscriptionStatus() {
       });
 }
 
-export async function fetchSimilarAlbums(referenceId, factor = 'artist', limit = 4) {
+export async function fetchSimilarAlbums(referenceId, factor = 'artist', limit = 10) {
     try {
       // Validate factor
       const validFactors = ['artist', 'genre', 'decade', 'price_range'];
@@ -332,9 +334,7 @@ export async function fetchSimilarAlbums(referenceId, factor = 'artist', limit =
         const albumCard = document.createElement('div');
         albumCard.classList.add('similar-album');
         
-        let imagePath = album.cover
-          ? (album.cover.startsWith('/static/') ? album.cover : `/static/images/album_images/${album.cover}`)
-          : "/static/images/default_album_cover.png";
+        let imagePath = album.cover;
         
         albumCard.innerHTML = `
           <img src="${imagePath}" alt="${album.title}" class="album-cover">
