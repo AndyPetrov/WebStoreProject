@@ -261,8 +261,7 @@ export async function fetchSimilarAlbums(referenceId, factor = 'artist', limit =
         throw new Error(`Invalid factor. Choose from: ${validFactors.join(', ')}`);
       }
   
-      // First, fetch the reference album details to get comparison data
-      const referenceResponse = await fetch(`/api/product/${referenceId}`);
+      const referenceResponse = await fetch(`/api/albums/${referenceId}`);
       if (!referenceResponse.ok) {
         throw new Error('Failed to fetch reference album details');
       }

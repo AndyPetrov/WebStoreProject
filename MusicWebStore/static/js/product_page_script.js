@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     async function fetchAlbumDetails(productId) {
         try {
-            const response = await fetch(`/api/product/${productId}`);
+            const response = await fetch(`/api/albums/${productId}`);
             
             if (!response.ok) {
                 throw new Error('Failed to fetch album details');
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function displayTracks(albumID) {
         try {
-          tracklist = await fetch(`/api/album/${albumID}/tracks`);
+          tracklist = await fetch(`/api/albums/${albumID}/tracks`);
           if (!tracklist.ok) {
             throw new Error('Failed to fetch tracklist');
           }

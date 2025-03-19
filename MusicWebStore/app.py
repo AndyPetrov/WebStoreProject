@@ -27,6 +27,10 @@ def login_page():
 def products_page():
     return render_template('products_page.html')
 
+@app.route('/tracks')
+def tracks_page():
+    return render_template('tracks_page.html')
+
 @app.route('/artists')
 def artists_page():
     return render_template('artists_page.html')
